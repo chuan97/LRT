@@ -14,7 +14,7 @@ ax = axes
 
 W = 1
 wz = 1
-z = 0
+z = 1
 
 lam0s = np.linspace(0.0001, 1, 200)
 ws = np.linspace(0, 2, 200)
