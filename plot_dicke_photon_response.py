@@ -40,23 +40,30 @@ cbar = fig.colorbar(cm, pad = 0.0, aspect = 40)
 ax.axhline(W, c='k', ls=(0, (1, 5)), lw=1)
 ax.axvline(np.sqrt(W*wz/4),  c='k', ls=(0, (1, 5)), lw=1)
 
-# # ---------- two oscillator polaritons -------------
-# up_twoosc = []
-# lp_twoosc = []
-# for i, lam in enumerate(lam0s):
-#     pm, pp = poles.polaritons(wz, W, lam)
-#     up_twoosc.append(pp)
-#     lp_twoosc.append(pm)
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if z == 0:
+        pm, pp = poles.polaritons(wz, W, lam)
+    elif z == 1:
+        pm, pp = poles.polaritons(np.sqrt(wz*(wz + 4*lam**2/(W*wz))),
+                                W,
+                                lam*(1 + 4*lam**2/(W*wz))**(-1/4)
+                                )
+        
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
     
-# ax.plot(lam0s, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
-# ax.plot(lam0s, lp_twoosc, c='b', lw=1)
+ax.plot(lam0s, up_twoosc, c='b', label="Dicke polaritons with $P^2$ term", lw=1)
+ax.plot(lam0s, lp_twoosc, c='b', lw=1)
 
-# ax.legend()
-# # ---------- two oscillator polaritons -------------
+ax.legend()
+# ---------- two oscillator polaritons -------------
 
 ax.set_ylim(0, 2)
 ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_title(r'$-{\rm Im}D(\omega) \Omega$')
 
-fig.savefig('plots/dicke_photon_response.jpeg', bbox_inches='tight', dpi=300)
+fig.savefig('plots/dicke_p2_photon_response.jpeg', bbox_inches='tight', dpi=300)

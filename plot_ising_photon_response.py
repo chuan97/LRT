@@ -13,9 +13,9 @@ plot.set_rcParams(size = (6, 5), lw = 2, fs = 14)
 fig, axes = plt.subplots(1, 1, constrained_layout=True)
 ax = axes
 
-W = 1.5
-J = 0.75
-B = 0.05
+W = 1
+J = 1
+B = 0.0
 
 lam0s = np.linspace(0.0001, 2.5, 100)
 ws = np.linspace(0, 3, 100)
@@ -45,7 +45,9 @@ ax.axhline(2*J, c='k', ls=(0, (1, 5)), lw=1)
 # up_twoosc = []
 # lp_twoosc = []
 # for i, lam in enumerate(lam0s):
-#     pm, pp = poles.polaritons(wz, W, lam)
+#     mx = ising.variational_mx(J, B, W, lam)
+    
+#     pm, pp = poles.polaritons(2*np.sqrt(J**2 + (B + 2*lam**2*mx/W)**2), W, 0.5*lam)
 #     up_twoosc.append(pp)
 #     lp_twoosc.append(pm)
     
