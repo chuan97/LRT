@@ -42,19 +42,25 @@ ax.axhline(W, c='k', ls=(0, (1, 5)), lw=1)
 ax.axvline(4*lam**2/W,  c='k', ls=(0, (1, 5)), lw=1)
 plt.plot(wzs, wzs, c='k', ls=(0, (1, 5)), lw=1)
 
-# # ---------- two oscillator polaritons -------------
-# up_twoosc = []
-# lp_twoosc = []
-# for i, wz in enumerate(wzs):
-#     pm, pp = poles.polaritons(wz, W, lam)
-#     up_twoosc.append(pp)
-#     lp_twoosc.append(pm)
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, wz in enumerate(wzs):
+    if z == 0:
+        pm, pp = poles.polaritons(wz, W, lam)
+    elif z == 1:
+        pm, pp = poles.polaritons(np.sqrt(wz*(wz + 4*lam**2/W)),
+                                W,
+                                lam*(1 + 4*lam**2/(W*wz))**(-1/4)
+                                )
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
     
-# ax.plot(wzs, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
-# ax.plot(wzs, lp_twoosc, c='b', lw=1)
+ax.plot(wzs, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
+ax.plot(wzs, lp_twoosc, c='b', lw=1)
 
-# ax.legend()
-# # ---------- two oscillator polaritons -------------
+ax.legend()
+# ---------- two oscillator polaritons -------------
 
 ax.set_yscale('log')
 ax.set_xscale('log')
