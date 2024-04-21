@@ -6,7 +6,7 @@ import LMG
 import dicke
 import plot
 import green
-import poles
+import polaritons
 
 plot.set_rcParams(size = (6, 5), lw = 2, fs = 14)
 
@@ -46,7 +46,7 @@ ax.axvline(np.sqrt(W*(W/4 - J)),  c='k', ls=(0, (1, 5)), lw=1)
 up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
-    pm, pp = poles.polaritons(4*(J + lam**2/W),
+    pm, pp = polaritons.dicke(4*(J + lam**2/W),
                               W,
                               wz/4
                               )

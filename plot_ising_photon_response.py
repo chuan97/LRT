@@ -6,7 +6,7 @@ import dicke
 import ising
 import plot
 import green
-import poles
+import polaritons
 
 plot.set_rcParams(size = (6, 5), lw = 2, fs = 14)
 

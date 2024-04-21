@@ -5,7 +5,7 @@ import matplotlib as mpl
 import dicke
 import plot
 import green
-import poles
+import polaritons
 
 plot.set_rcParams(size = (6, 5), lw = 2, fs = 14)
 
@@ -45,9 +45,9 @@ up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
     if z == 0:
-        pm, pp = poles.polaritons(wz, W, lam)
+        pm, pp = polaritons.dicke(wz, W, lam)
     elif z == 1:
-        pm, pp = poles.polaritons(np.sqrt(wz*(wz + 4*lam**2/(W*wz))),
+        pm, pp = polaritons.dicke(np.sqrt(wz*(wz + 4*lam**2/(W*wz))),
                                 W,
                                 lam*(1 + 4*lam**2/(W*wz))**(-1/4)
                                 )

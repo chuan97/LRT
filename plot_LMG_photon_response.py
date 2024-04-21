@@ -6,7 +6,7 @@ import LMG
 import dicke
 import plot
 import green
-import poles
+import polaritons
 
 plot.set_rcParams(size = (6, 5), lw = 2, fs = 14)
 
@@ -15,7 +15,7 @@ ax = axes
 
 W = 1.0
 wz = 1
-J = 0.4
+J = 0.2
 
 lam0s = np.linspace(0.0001, 1, 200)
 ws = np.linspace(0, 2, 200)
@@ -42,17 +42,32 @@ ax.axhline(W, c='k', ls=(0, (1, 5)), lw=1)
 ax.axhline(np.sqrt(wz*(wz - 4*J)), c='k', ls=(0, (1, 5)), lw=1)
 ax.axvline(np.sqrt(W*(wz/4 - J)),  c='k', ls=(0, (1, 5)), lw=1)
 
+# # ---------- two oscillator polaritons -------------
+# up_twoosc = []
+# lp_twoosc = []
+# for i, lam in enumerate(lam0s):
+#     if wz > 4*(lam**2/W + J):
+#         pm, pp = poles.polaritons(np.sqrt(wz*(wz - 4*J)),
+#                                 W,
+#                                 lam*(1 - 4*J/wz)**(-1/4)
+#                                 )
+#     else:
+#         pm, pp = None, None
+#     up_twoosc.append(pp)
+#     lp_twoosc.append(pm)
+    
+# ax.plot(lam0s, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
+# ax.plot(lam0s, lp_twoosc, c='b', lw=1)
+
+# ax.legend()
+# # ---------- two oscillator polaritons -------------
+
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
-    if wz > 4*(lam**2/W + J):
-        pm, pp = poles.polaritons(np.sqrt(wz*(wz - 4*J)),
-                                W,
-                                lam*(1 - 4*J/wz)**(-1/4)
-                                )
-    else:
-        pm, pp = None, None
+    pm, pp = polaritons.LMG(wz, W, lam, J)
+    
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
     
@@ -61,7 +76,6 @@ ax.plot(lam0s, lp_twoosc, c='b', lw=1)
 
 ax.legend()
 # ---------- two oscillator polaritons -------------
-
 
 ax.set_ylim(0, 2)
 ax.set_xlabel(r'$\lambda / \Omega$')
