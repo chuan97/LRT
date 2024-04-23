@@ -18,7 +18,7 @@ z = 1
 
 lam0s = np.linspace(0.0001, 1, 200)
 ws = np.linspace(0, 2, 200)
-eta = 0.001
+eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 for i, lam in enumerate(lam0s):
@@ -55,8 +55,14 @@ for i, lam in enumerate(lam0s):
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
     
-ax.plot(lam0s, up_twoosc, c='b', label="Dicke polaritons with $P^2$ term", lw=1)
-ax.plot(lam0s, lp_twoosc, c='b', lw=1)
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label="Dicke polaritons with $P^2$ term",
+        lw=1,
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='limegreen', lw=1, ls='--')
 
 ax.legend()
 # ---------- two oscillator polaritons -------------
