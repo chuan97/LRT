@@ -15,11 +15,11 @@ ax = axes
 
 W = 1
 wzs = np.logspace(-2, 1, 200)
-z = 1
+z = 0
 
 lam  = 0.2
 ws = np.logspace(-2, 1, 200)
-eta = 0.001
+eta = 0.01
 
 Dm = np.empty((len(wzs), len(ws)), dtype=complex)
 for i, wz in enumerate(wzs):
@@ -56,10 +56,10 @@ for i, wz in enumerate(wzs):
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
     
-ax.plot(wzs, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
-ax.plot(wzs, lp_twoosc, c='b', lw=1)
+ax.plot(wzs, up_twoosc, c='gold', label="Poles Two Osc. model", ls='--')
+ax.plot(wzs, lp_twoosc, c='gold', ls='--')
 
-ax.legend()
+# ax.legend()
 # ---------- two oscillator polaritons -------------
 
 ax.set_yscale('log')
