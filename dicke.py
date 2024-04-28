@@ -16,7 +16,7 @@ def f_mx(wz, z, W, lam):
 def f_chixx0(w, wz, h):
     Eh = np.sqrt(wz**2 + 4*h**2)
     
-    return (wz / Eh)**2 * 2*Eh / (Eh**2 - w**2)
+    return -(wz / Eh)**2 * 2*Eh / (w**2 - Eh**2)
 
 def f_Vind(w, W, lam, zeta):
     return 2 * lam**2 * (W**2 * (zeta - 1) - zeta*w**2) / (W * (W**2 - w**2))

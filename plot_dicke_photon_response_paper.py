@@ -16,8 +16,8 @@ W = 1
 wz = 1
 z = 0
 
-lam0s = np.linspace(0.0001, 1, 200)
-ws = np.linspace(0, 2, 200)
+lam0s = np.linspace(0.0001, 1, 50)
+ws = np.linspace(0, 2, 50)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
@@ -27,8 +27,9 @@ for i, lam in enumerate(lam0s):
         
         chixx0 = dicke.f_chixx0(w + 1j*eta, wz, 2*lam**2*mx/W)
         Vind = dicke.f_Vind(w + 1j*eta, W, lam, z)
+        chixx = green.f_chixx(Vind, chixx0)
         
-        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx0, Vind)
+        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
         
 cm = ax.pcolormesh(lam0s,
                    ws,
@@ -88,8 +89,9 @@ for i, lam in enumerate(lam0s):
         
         chixx0 = dicke.f_chixx0(w + 1j*eta, wz, 2*lam**2*mx/W)
         Vind = dicke.f_Vind(w + 1j*eta, W, lam, z)
+        chixx = green.f_chixx(Vind, chixx0)
         
-        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx0, Vind)
+        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
         
 cm = ax.pcolormesh(lam0s,
                    ws,
