@@ -13,19 +13,20 @@ fig, axes = plt.subplots(1, 2, constrained_layout=True)
 ax = axes[0]
 
 W = 1.0
-wz = 1
-J = 0.3
+wz = 0.0
+wx = 0.
+J = 0.5
 
-lam0s = np.linspace(0.0001, 1, 50)
-ws = np.linspace(0, 3, 50)
+lam0s = np.linspace(0.0001, 1, 100)
+ws = np.linspace(0, 3, 100)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 for i, lam in enumerate(lam0s):
-    mx = tLMG.variational_mx(wz, J, W, lam)
+    mx = tLMG.variational_mx(wx, wz, J, W, lam)
     mz = -np.sqrt(1-mx**2)
     wztilde = wz - 4*J*mz
-    h = -2*lam**2*mx/W
+    h = wx/2 - 2*lam**2*mx/W
     
     for j, w in enumerate(ws):
         chixx0 = tLMG.f_chixx0(w + 1j*eta, wztilde, h)
@@ -42,8 +43,8 @@ for i, lam in enumerate(lam0s):
                                       chizz0
                                       )
         
-        # Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
-        Dm[i, j] = -chixx
+        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
+        # Dm[i, j] = -chixx
         
 cm = ax.pcolormesh(lam0s,
                    ws,
@@ -98,26 +99,28 @@ cm = ax.pcolormesh(lam0s,
 ax.set_ylim(0, 3)
 ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_ylabel(r'$\omega / \Omega$')
-ax.set_title(rf'$\omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$')
+ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
+             fontsize=14)
 
 ax = axes[1]
 
 W = 1.0
 wz = 0.1
-J = 0.25
+wx = 0.
+J = 0.5
 
-lam0s = np.linspace(0.0001, 1, 50)
-ws = np.linspace(0, 3, 50)
+lam0s = np.linspace(0.0001, 1, 100)
+ws = np.linspace(0, 3, 100)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 for i, lam in enumerate(lam0s):
     for j, w in enumerate(ws):
-        mx = tLMG.variational_mx(wz, J, W, lam)
+        mx = tLMG.variational_mx(wx, wz, J, W, lam)
         mz = -np.sqrt(1-mx**2)
         
         wztilde = wz - 4*J*mz
-        h = -2*lam**2*mx/W
+        h = wx/2 - 2*lam**2*mx/W
         
         chixx0 = tLMG.f_chixx0(w + 1j*eta, wztilde, h)
         chixz0 = chizx0 = tLMG.f_chixz0(w + 1j*eta, wztilde, h)
@@ -133,8 +136,8 @@ for i, lam in enumerate(lam0s):
                                       chizz0
                                       )
         
-        # Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
-        Dm[i, j] = -chixx
+        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
+        # Dm[i, j] = -chixx
         
 cm = ax.pcolormesh(lam0s,
                    ws,
@@ -189,8 +192,7 @@ ax.set_ylim(0, 3)
 ax.set_xlabel(r'$\lambda / \Omega$')
 #ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_yticklabels([])
-ax.set_title(rf'$\omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$')
-
-ax.legend()
+ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
+             fontsize=14)
 
 fig.savefig('plots/transverse_LMG_photon_response_paper.jpeg', bbox_inches='tight', dpi=300)

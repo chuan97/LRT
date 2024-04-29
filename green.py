@@ -12,8 +12,5 @@ def f_chixx(Vind, chixx0):
     return chixx0 / (1 + Vind*chixx0)
 
 def f_chixx_twomode(Vindx, Vindz, chixx0, chixz0, chizx0, chizz0):
-    if chixz0 == 0:
-        return chixx0/(1 + Vindx*chixx0) - 2*chixx0
-    
-    return chixx0/(1 + Vindx*chixx0) - chixz0*Vindz*chizx0/(1 + Vindz*chizz0) \
-        -chixx0/chixz0*chizx0 - chixz0/chizx0*chixx0
+    a = chixx0*chizz0 - chixz0*chizx0
+    return (chixx0 + Vindz*a) / (1 + Vindx*chixx0 + Vindz*chizz0 + Vindx*Vindz*a)

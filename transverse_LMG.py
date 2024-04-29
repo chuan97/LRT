@@ -1,14 +1,24 @@
 import numpy as np
 from scipy.optimize import minimize
 
-def variational_e0(mx, wz, J, W, lam):
+def variational_e0(mx, wx, wz, J, W, lam):
     mz = -np.sqrt(1 - mx**2)
-    return -0.5*np.sqrt((wz - 4*J*mz)**2 + 16*lam**4*mx**2/W**2) \
-        + (lam**2/W - J)*mx**2
+    wztilde = wz - 4*J*mz
+    h = wx/2 - 2*lam**2*mx/W
+    
+    return -0.5*np.sqrt(wztilde**2 + (2*h)**2) + (lam**2/W - J)*mx**2
 
-def variational_mx(wz, J, W, lam):
-    sol0 = minimize(variational_e0, x0=0.0, args=(wz, J, W, lam), bounds=((-1, 1),))
-    sol1 = minimize(variational_e0, x0=0.9, args=(wz, J, W, lam), bounds=((-1, 1),))
+def variational_mx(wx, wz, J, W, lam):
+    sol0 = minimize(variational_e0,
+                    x0=0.0,
+                    args=(wx, wz, J, W, lam),
+                    bounds=((-1, 1),)
+                    )
+    sol1 = minimize(variational_e0,
+                    x0=0.9,
+                    args=(wx, wz, J, W, lam),
+                    bounds=((-1, 1),)
+                    )
     
     if sol0.fun < sol1.fun:
         return sol0.x[0]
