@@ -14,7 +14,7 @@ ax = axes[0]
 
 W = 1.0
 wz = 0.0
-wx = 0.
+wx = 0.2
 J = 0.5
 
 lam0s = np.linspace(0.0001, 1, 100)
@@ -105,8 +105,8 @@ ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \
 ax = axes[1]
 
 W = 1.0
-wz = 0.1
-wx = 0.
+wz = 0.2
+wx = 0.2
 J = 0.5
 
 lam0s = np.linspace(0.0001, 1, 100)
@@ -195,4 +195,4 @@ ax.set_yticklabels([])
 ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
              fontsize=14)
 
-fig.savefig('plots/transverse_LMG_photon_response_paper.jpeg', bbox_inches='tight', dpi=300)
+fig.savefig('plots/2alt_transverse_LMG_photon_response_paper.jpeg', bbox_inches='tight', dpi=300)
