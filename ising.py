@@ -12,8 +12,16 @@ def variational_e0(mx, J, B, wc, lam):
     return lam**2*mx**2/wc + e0_ising(J, B + 2*lam**2*mx/wc)
 
 def variational_mx(J, B, wc, lam):
-    sol0 = minimize(variational_e0, x0=0.0, args=(J, B, wc, lam))
-    sol1 = minimize(variational_e0, x0=0.5, args=(J, B, wc, lam))
+    sol0 = minimize(variational_e0,
+                    x0=0.0,
+                    bounds=((-0.5, 0.5),),
+                    args=(J, B, wc, lam)
+                    )
+    sol1 = minimize(variational_e0,
+                    x0=0.4,
+                    bounds=((-0.5, 0.5),),
+                    args=(J, B, wc, lam)
+                    )
     
     if sol0.fun < sol1.fun:
         return sol0.x[0]

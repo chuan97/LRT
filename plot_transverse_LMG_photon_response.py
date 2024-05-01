@@ -17,8 +17,8 @@ wz = 0.0
 wx = 0.0
 J = 0.25
 
-lam0s = np.linspace(0.0001, 1, 100)
-ws = np.linspace(0, 3, 100)
+lam0s = np.linspace(0.0001, 1, 200)
+ws = np.linspace(0, 3, 200)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
@@ -79,21 +79,41 @@ ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
-axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
-axin.set_ylabel(r'$|m_x|$')
+axin.set_xticklabels([])
+axin.tick_params(axis='y', which='major', labelsize=12)
+# axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
+# axin.set_ylabel(r'$|m_x|$')
+axin.text(0.05,
+          0.75,
+          r'$|m_x|$',
+          fontsize=12,
+          horizontalalignment='left',
+          verticalalignment='center',
+          transform=axin.transAxes
+          )
 axin.set_ylim(-0.1, 1.1)
 
-vminz = np.amin(chizzs.imag[np.nonzero(chizzs.imag)])
-vmaxz = np.amax(chizzs.imag[np.nonzero(chizzs.imag)])
+vminz = np.amin(chizzs.imag[chizzs.imag > 1e-7])
+vmaxz = np.amax(chizzs.imag)
 
 axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
 cm2 = axin2.pcolormesh(lam0s,
                    ws,
                    chizzs.T.imag,
-                   cmap='Reds',
+                   cmap='OrRd',
                    norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
                    )
-axin2.set_title(r'$-{\rm Im}\chi_{zz}(\omega) \Omega$')
+axin2.text(0.5,
+           0.8,
+           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
+axin2.set_xticklabels([])
+axin2.set_yticklabels([])
+
 
 ax = axes[0, 1]
 
@@ -102,11 +122,12 @@ wz = 0.
 wx = 0.2
 J = 0.25
 
-lam0s = np.linspace(0.0001, 1, 100)
-ws = np.linspace(0, 3, 100)
+lam0s = np.linspace(0.0001, 1, 200)
+ws = np.linspace(0, 3, 200)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
+chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
@@ -119,12 +140,6 @@ for i, lam in enumerate(lam0s):
     h = wx/2 - 2*lam**2*mx/W
     
     for j, w in enumerate(ws):
-        mx = tLMG.variational_mx(wx, wz, J, W, lam)
-        mz = -np.sqrt(1-mx**2)
-        
-        wztilde = wz - 4*J*mz
-        h = wx/2 - 2*lam**2*mx/W
-        
         chixx0 = tLMG.f_chixx0(w + 1j*eta, wztilde, h)
         chixz0 = chizx0 = tLMG.f_chixz0(w + 1j*eta, wztilde, h)
         chizz0 = tLMG.f_chizz0(w + 1j*eta, wztilde, h)
@@ -139,8 +154,16 @@ for i, lam in enumerate(lam0s):
                                       chizz0
                                       )
         
+        chizz = green.f_chizz_twomode(Vindx,
+                                      Vindz,
+                                      chixx0,
+                                      chixz0,
+                                      chizx0,
+                                      chizz0
+                                      )
+        
         Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
-        # Dm[i, j] = -chixx
+        chizzs[i, j] = chizz
         
 cm = ax.pcolormesh(lam0s,
                    ws,
@@ -163,9 +186,37 @@ ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
-axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
-axin.set_ylabel(r'$|m_x|$')
+axin.set_xticklabels([])
+axin.tick_params(axis='y', which='major', labelsize=12)
+# axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
+# axin.set_ylabel(r'$|m_x|$')
+axin.text(0.05,
+          0.75,
+          r'$|m_x|$',
+          fontsize=12,
+          horizontalalignment='left',
+          verticalalignment='center',
+          transform=axin.transAxes
+          )
 axin.set_ylim(-0.1, 1.1)
+
+axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+cm2 = axin2.pcolormesh(lam0s,
+                   ws,
+                   chizzs.T.imag,
+                   cmap='OrRd',
+                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+                   )
+axin2.text(0.5,
+           0.8,
+           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
+axin2.set_xticklabels([])
+axin2.set_yticklabels([])
 
 ax = axes[1, 0]
 
@@ -174,11 +225,12 @@ wz = 0.2
 wx = 0.
 J = 0.25
 
-lam0s = np.linspace(0.0001, 1, 100)
-ws = np.linspace(0, 3, 100)
+lam0s = np.linspace(0.0001, 1, 200)
+ws = np.linspace(0, 3, 200)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
+chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
@@ -205,8 +257,16 @@ for i, lam in enumerate(lam0s):
                                       chizz0
                                       )
         
+        chizz = green.f_chizz_twomode(Vindx,
+                                      Vindz,
+                                      chixx0,
+                                      chixz0,
+                                      chizx0,
+                                      chizz0
+                                      )
+        
         Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
-        # Dm[i, j] = -chixx
+        chizzs[i, j] = chizz
         
 cm = ax.pcolormesh(lam0s,
                    ws,
@@ -223,9 +283,37 @@ ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
-axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
-axin.set_ylabel(r'$|m_x|$')
+axin.set_xticklabels([])
+axin.tick_params(axis='y', which='major', labelsize=12)
+# axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
+# axin.set_ylabel(r'$|m_x|$')
+axin.text(0.05,
+          0.75,
+          r'$|m_x|$',
+          fontsize=12,
+          horizontalalignment='left',
+          verticalalignment='center',
+          transform=axin.transAxes
+          )
 axin.set_ylim(-0.1, 1.1)
+
+axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+cm2 = axin2.pcolormesh(lam0s,
+                   ws,
+                   chizzs.T.imag,
+                   cmap='OrRd',
+                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+                   )
+axin2.text(0.5,
+           0.8,
+           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
+axin2.set_xticklabels([])
+axin2.set_yticklabels([])
 
 ax = axes[1, 1]
 
@@ -234,11 +322,12 @@ wz = 0.2
 wx = 0.2
 J = 0.25
 
-lam0s = np.linspace(0.0001, 1, 100)
-ws = np.linspace(0, 3, 100)
+lam0s = np.linspace(0.0001, 1, 200)
+ws = np.linspace(0, 3, 200)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
+chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
@@ -265,8 +354,16 @@ for i, lam in enumerate(lam0s):
                                       chizz0
                                       )
         
+        chizz = green.f_chizz_twomode(Vindx,
+                                      Vindz,
+                                      chixx0,
+                                      chixz0,
+                                      chizx0,
+                                      chizz0
+                                      )
+        
         Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
-        # Dm[i, j] = -chixx
+        chizzs[i, j] = chizz
         
 cm = ax.pcolormesh(lam0s,
                    ws,
@@ -289,9 +386,36 @@ ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
-axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
-axin.set_ylabel(r'$|m_x|$'
-                )
+axin.set_xticklabels([])
+axin.tick_params(axis='y', which='major', labelsize=12)
+# axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
+# axin.set_ylabel(r'$|m_x|$')
+axin.text(0.05,
+          0.75,
+          r'$|m_x|$',
+          fontsize=12,
+          horizontalalignment='left',
+          verticalalignment='center',
+          transform=axin.transAxes
+          )
 axin.set_ylim(-0.1, 1.1)
+
+axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+cm2 = axin2.pcolormesh(lam0s,
+                   ws,
+                   chizzs.T.imag,
+                   cmap='OrRd',
+                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+                   )
+axin2.text(0.5,
+           0.8,
+           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
+axin2.set_xticklabels([])
+axin2.set_yticklabels([])
 
 fig.savefig('plots/transverse_LMG_photon_response.jpeg', bbox_inches='tight', dpi=300)
