@@ -16,8 +16,8 @@ W = 1
 wz = 1
 z = 0
 
-lam0s = np.linspace(0.0001, 1, 50)
-ws = np.linspace(0, 2, 50)
+lam0s = np.linspace(0.0001, 1, 200)
+ws = np.linspace(0, 2, 200)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
@@ -113,7 +113,7 @@ for i, lam in enumerate(lam0s):
     if z == 0:
         pm, pp = polaritons.dicke(wz, W, lam)
     elif z == 1:
-        pm, pp = polaritons.dicke(np.sqrt(wz*(wz + 4*lam**2/(W*wz))),
+        pm, pp = polaritons.dicke(np.sqrt(wz*(wz + 4*lam**2/W)),
                                 W,
                                 lam*(1 + 4*lam**2/(W*wz))**(-1/4)
                                 )

@@ -38,34 +38,6 @@ cm = ax.pcolormesh(lam0s,
                    cmap='BuPu',
                    norm=mpl.colors.LogNorm()
                    )
-# cbar = fig.colorbar(cm,
-#                     pad = 0.0,
-#                     aspect = 40,
-#                     label=r'$-{\rm Im}D(\omega) \Omega$'
-#                     )
-# ax.axhline(W, c='k', ls=(0, (1, 5)), lw=1)
-# ax.axhline(np.sqrt(wz*(wz - 4*J)), c='k', ls=(0, (1, 5)), lw=1)
-# ax.axvline(np.sqrt(W*(wz/4 - J)),  c='k', ls=(0, (1, 5)), lw=1)
-
-# # ---------- two oscillator polaritons -------------
-# up_twoosc = []
-# lp_twoosc = []
-# for i, lam in enumerate(lam0s):
-#     if wz > 4*(lam**2/W + J):
-#         pm, pp = poles.polaritons(np.sqrt(wz*(wz - 4*J)),
-#                                 W,
-#                                 lam*(1 - 4*J/wz)**(-1/4)
-#                                 )
-#     else:
-#         pm, pp = None, None
-#     up_twoosc.append(pp)
-#     lp_twoosc.append(pm)
-    
-# ax.plot(lam0s, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
-# ax.plot(lam0s, lp_twoosc, c='b', lw=1)
-
-# ax.legend()
-# # ---------- two oscillator polaritons -------------
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -118,29 +90,6 @@ cbar = fig.colorbar(cm,
                     pad = -0.0,
                     aspect = 60,
                     label=r'$-{\rm Im}D(\omega) \Omega$')
-# ax.axhline(W, c='k', ls=(0, (1, 5)), lw=1)
-# ax.axhline(np.sqrt(wz*(wz - 4*J)), c='k', ls=(0, (1, 5)), lw=1)
-# ax.axvline(np.sqrt(W*(wz/4 - J)),  c='k', ls=(0, (1, 5)), lw=1)
-
-# # ---------- two oscillator polaritons -------------
-# up_twoosc = []
-# lp_twoosc = []
-# for i, lam in enumerate(lam0s):
-#     if wz > 4*(lam**2/W + J):
-#         pm, pp = poles.polaritons(np.sqrt(wz*(wz - 4*J)),
-#                                 W,
-#                                 lam*(1 - 4*J/wz)**(-1/4)
-#                                 )
-#     else:
-#         pm, pp = None, None
-#     up_twoosc.append(pp)
-#     lp_twoosc.append(pm)
-    
-# ax.plot(lam0s, up_twoosc, c='b', label="Poles Two Osc. model", lw=1)
-# ax.plot(lam0s, lp_twoosc, c='b', lw=1)
-
-# ax.legend()
-# # ---------- two oscillator polaritons -------------
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -154,7 +103,7 @@ for i, lam in enumerate(lam0s):
 ax.plot(lam0s, up_twoosc, c='gold', label=r"$\Omega_\pm$ (exact polaritons)", ls='--')
 ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 
-# ax.legend()
+ax.legend()
 # ---------- two oscillator polaritons -------------
 
 ax.set_ylim(0, 2)
@@ -162,7 +111,5 @@ ax.set_xlabel(r'$\lambda / \Omega$')
 #ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_yticklabels([])
 ax.set_title(rf'$\omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$')
-
-ax.legend()
 
 fig.savefig('plots/LMG_photon_response_paper.jpeg', bbox_inches='tight', dpi=300)
