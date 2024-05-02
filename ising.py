@@ -2,25 +2,32 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.integrate import quad
 
-def e0_ising_kernel(k, J, B):
-    return -0.5 * np.sqrt(J**2 + B**2 - 2*J*B*np.cos(k)) / (2 * np.pi)
+def e0_isingchixx0_kernel(k, J, wx):
+    return -0.5 * np.sqrt((2*J)**2 + wx**2 - 4*J*wx*np.cos(k)) / (2 * np.pi)
 
-def e0_ising(J, B):
-    return quad(e0_ising_kernel, 0, 2*np.pi, args=(J, B))[0]
+def e0_ising(J, wx):
+    return quad(e0_isingchixx0_kernel, 0, 2*np.pi, args=(J, wx))[0]
 
-def variational_e0(mx, J, B, wc, lam):
-    return lam**2*mx**2/wc + e0_ising(J, B + 2*lam**2*mx/wc)
+def variational_e0(mx, J, wx, W, lam):
+    return lam**2*mx**2/W + e0_ising(J, wx + 4*lam**2*mx/W)
 
-def variational_mx(J, B, wc, lam):
+def mx_free_kernel(k, J, wx):
+    ek = f_ek(k, J, wx)
+    return (wx - 2*J*np.cos(k))/(2 * np.pi * ek)
+
+def mx_free(J, wx):
+    return quad(mx_free_kernel, 0, 2*np.pi, args=(J, wx))[0]
+
+def variational_mx(J, wx, W, lam):
     sol0 = minimize(variational_e0,
                     x0=0.0,
-                    bounds=((-0.5, 0.5),),
-                    args=(J, B, wc, lam)
+                    bounds=((-1, 1),),
+                    args=(J, wx, W, lam)
                     )
     sol1 = minimize(variational_e0,
-                    x0=0.4,
-                    bounds=((-0.5, 0.5),),
-                    args=(J, B, wc, lam)
+                    x0=0.9,
+                    bounds=((-1, 1),),
+                    args=(J, wx, W, lam)
                     )
     
     if sol0.fun < sol1.fun:
@@ -28,51 +35,41 @@ def variational_mx(J, B, wc, lam):
     else:
         return sol1.x[0]
     
-def mz_exact(J, B):
-    if B < J:
-        return 0.5*(1 - (B/J)**2)**(1/8)
+def mz_exact(J, wx):
+    if wx < 2*J:
+        return (1 - (wx/(2*J))**2)**(1/8)
     else:
         return 0
+    
+def f_ek(k, J, wx):
+    return np.sqrt((2*J)**2 + wx**2 - 4*J*wx*np.cos(k))
 
-def G_kernel(k, w, J, B):
-    ek = np.sqrt(J**2 + B**2 - 2*J*B*np.cos(k))
-    return np.sin(k)**2 / (2 * np.pi * ek * (w**2 - 4*ek**2))
+def chixx0_kernel(k, w, J, wx, eta):
+    ek = f_ek(k, J, wx)
+    num = np.sin(k)**2 * (w**2 - 4*ek**2)
+    den = ek * ((w**2 - 4*ek**2)**2 + 4*eta**2*w**2)
+    
+    return num / den
 
-def imG_kernel(k, w, J, B):
-    ek = np.sqrt(J**2 + B**2 - 2*J*B*np.cos(k))
-    return w * np.sin(k)**2 / (2 * np.pi * ek * (w**2 - 4*ek**2)**2)
+def imchixx0_kernel(k, w, J, wx, eta):
+    ek = f_ek(k, J, wx)
+    num = np.sin(k)**2
+    den = ek * ((w**2 - 4*ek**2)**2 + 4*eta**2*w**2)
     
-def f_chixx0(wcomplex, J, B):
-    w, eta = wcomplex.real, wcomplex.imag
+    return num / den
     
-    if w >= 2*np.abs(J - B) and w <= 2*(J + B):
-        eps = 0.0001
-        disc = np.arccos((J**2 + B**2 - w**2/4)/(2*J*B))
-        
-        Gre = -J**2 * quad(G_kernel, 0, disc-eps, args=(w, J, B))[0]
-        Gre += -J**2 * quad(G_kernel,
-                            disc+eps,
-                            2*np.pi - disc - eps,
-                            args=(w, J, B)
-                            )[0]
-        Gre += -J**2 * quad(G_kernel, 
-                            2*np.pi - disc + eps,
-                            2*np.pi,
-                            args=(w, J, B)
-                            )[0]
-        
-        Gim = 2 * eta * J**2 * quad(imG_kernel, 0, disc-eps, args=(w, J, B))[0]
-        Gim += 2 * eta * J**2 * quad(imG_kernel,
-                                     disc+eps,
-                                     2*np.pi - disc - eps,
-                                     args=(w, J, B)
-                                     )[0]
-        Gim += 2 * eta * J**2 * quad(imG_kernel,
-                                     2*np.pi - disc + eps,
-                                     2*np.pi, args=(w, J, B)
-                                     )[0]
-    else:
-        Gre = -J**2 * quad(G_kernel, 0, 2*np.pi, args=(w, J, B))[0]
-        Gim = 2 * eta * J**2 * quad(imG_kernel, 0, 2*np.pi, args=(w, J, B))[0]
+def f_chixx0(w_complex, J, wx):
+    w, eta = w_complex.real, w_complex.imag
     
-    return Gre + 1j*Gim
+    re = -4*(2*J)**2 / (2*np.pi) * quad(chixx0_kernel,
+                                        0,
+                                        2*np.pi,
+                                        args=(w, J, wx, eta)
+                                        )[0]
+    im = 2*eta*w * 4*(2*J)**2 / (2*np.pi) * quad(imchixx0_kernel,
+                                                 0,
+                                                 2*np.pi,
+                                                 args=(w, J, wx, eta)
+                                                 )[0]
+    
+    return re + 1j*im
