@@ -15,16 +15,16 @@ fig, axes = plt.subplots(1, 1, constrained_layout=True)
 ax = axes
 
 W = 1.0
+wz = 1
 J = 0.15
-lam = 0.1
 
-wzs = np.linspace(0, 2, 200)
+lam0s = np.linspace(0.0001, 1, 200)
 ws = np.linspace(0, 2, 200)
 eta = 0.01
 
-Dm = np.empty((len(wzs), len(ws)), dtype=complex)
+Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
-for i, wz in enumerate(wzs):
+for i, lam in enumerate(lam0s):
     mx = LMG.f_mx(wz, J, W, lam)
     mxs.append(mx)
     for j, w in enumerate(ws):
@@ -34,7 +34,7 @@ for i, wz in enumerate(wzs):
         
         Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
         
-cm = ax.pcolormesh(wzs,
+cm = ax.pcolormesh(lam0s,
                    ws,
                    -Dm.T.imag,
                    cmap='BuPu',
@@ -47,16 +47,16 @@ cbar = fig.colorbar(cm,
                     label=r'$-{\rm Im}D(\omega) \Omega$')
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
-axin.plot(wzs, np.abs(mxs), c='b', label=r'$|m_x|$')
+axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.set_xticklabels([])
 axin.tick_params(axis='y', which='major', labelsize=12)
 # axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
 # axin.set_ylabel(r'$|m_x|$')
-axin.text(0.95,
+axin.text(0.05,
           0.75,
           r'$|m_x|$',
           fontsize=12,
-          horizontalalignment='right',
+          horizontalalignment='left',
           verticalalignment='center',
           transform=axin.transAxes
           )
@@ -65,28 +65,27 @@ axin.set_ylim(-0.1, 1.1)
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
 lp_twoosc = []
-for i, wz in enumerate(wzs):
+for i, lam in enumerate(lam0s):
     pm, pp = polaritons.LMG(wz, W, lam, J)
     
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
     
-ax.plot(wzs,
+ax.plot(lam0s,
         up_twoosc,
         c='gold',
         label=r"$\Omega_\pm$ (exact polaritons)", 
         ls='--'
         )
-ax.plot(wzs, lp_twoosc, c='gold', ls='--')
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 
 ax.legend(loc='lower right', fontsize=10)
 # ---------- two oscillator polaritons -------------
 
 ax.set_ylim(0, 2)
-ax.set_xlabel(r'$\omega_z / \Omega$')
+ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_ylabel(r'$\omega / \Omega$')
-ax.set_title(rf'$\lambda/\Omega = {lam} \,,\; J / \Omega = {J / W}$', fontsize=14)
+ax.set_title(rf'$\omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$', fontsize=14)
 
 
-fig.savefig('plots/alt_LMG_photon_response_letter.jpeg', bbox_inches='tight', dpi=300)
-# plt.show()
+fig.savefig('plots/LMG_photon_response_letter.jpeg', bbox_inches='tight', dpi=300)

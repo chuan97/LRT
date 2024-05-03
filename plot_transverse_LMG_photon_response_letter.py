@@ -7,9 +7,9 @@ import transverse_LMG as tLMG
 import plot
 import green
 
-plot.set_rcParams(size = (10, 4.5), lw = 2, fs = 16)
+plot.set_rcParams(size = (5.75, 8.5), lw = 2, fs = 16)
 
-fig, axes = plt.subplots(1, 2, constrained_layout=True)
+fig, axes = plt.subplots(2, 1, constrained_layout=True)
 ax = axes[0]
 
 W = 1.0
@@ -71,8 +71,8 @@ cm = ax.pcolormesh(lam0s,
                    )
 
 ax.set_ylim(0, 2)
-ax.set_xlabel(r'$\lambda / \Omega$')
-# ax.set_xticklabels([])
+# ax.set_xlabel(r'$\lambda / \Omega$')
+ax.set_xticklabels([])
 ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
              fontsize=14)
@@ -172,15 +172,16 @@ cm = ax.pcolormesh(lam0s,
                    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
                    )
 cbar = fig.colorbar(cm,
+                    ax=axes.ravel().tolist(),
                     pad = -0.0,
-                    aspect = 40,
+                    aspect = 60,
                     label=r'$-{\rm Im}D(\omega) \Omega$')
 
 ax.set_ylim(0, 2)
 ax.set_xlabel(r'$\lambda / \Omega$')
 # ax.set_xticklabels([])
-#ax.set_ylabel(r'$\omega / \Omega$')
-ax.set_yticklabels([])
+ax.set_ylabel(r'$\omega / \Omega$')
+# ax.set_yticklabels([])
 ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
              fontsize=14)
 

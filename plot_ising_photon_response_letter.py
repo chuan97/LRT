@@ -7,6 +7,7 @@ import dicke
 import ising
 import plot
 import green
+import polaritons
 
 plot.set_rcParams(size = (5.75, 8.5), lw = 2, fs = 16)
 
@@ -15,20 +16,28 @@ ax = axes[0]
 
 W = 1
 wx = 0.0
-J = 0.25
+J = 0.5
 
+ws_upperlimit = 3
 lam0s = np.linspace(0, 1, 100)
-ws = np.linspace(0, 2, 100)
+ws = np.linspace(0, ws_upperlimit, 100)
 eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
+wupperbound = []
+wlowerbound = []
+wmidband = []
 for i, lam in enumerate(lam0s):
     if lam == 0:
         mx = ising.mx_free(J, wx)
     else:
         mx = ising.variational_mx(J, wx, W, lam)
     mxs.append(mx)
+    
+    wupperbound.append(2*((2*J) + wx + 4*lam**2*mx/W))
+    wlowerbound.append(2*np.abs((2*J) - (wx + 4*lam**2*mx/W)))
+    wmidband.append(2*ising.f_ek(np.pi/2, J, wx + 4*lam**2*mx/W))
     
     for j, w in enumerate(ws):
         chixx0 = ising.f_chixx0(w + 1j*eta, J, wx + 4*lam**2*mx/W)
@@ -47,6 +56,9 @@ cm = ax.pcolormesh(lam0s,
                    cmap='BuPu',
                    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
                    )
+ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
+ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+# ax.plot(lam0s, wmidband, c='k', ls='--', lw='1')
 # cbar = fig.colorbar(cm,
 #                     pad = -0.0,
 #                     aspect = 60,
@@ -56,6 +68,7 @@ cm = ax.pcolormesh(lam0s,
 ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; J / \Omega = {J}$', fontsize=14)
 ax.set_xticklabels([])
+ax.set_ylim(0, ws_upperlimit)
 # ax.axvline(np.sqrt(J*W/1.196))
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
@@ -81,22 +94,29 @@ axin.set_ylim(-0.1, 1.1)
 
 ax = axes[1]
 
-W = 1
-wx = 0.1
-J = 0.25
+# W = 1
+wx = 0.2
+# J = 0.25
 
-lam0s = np.linspace(0, 1, 100)
-ws = np.linspace(0, 2, 100)
-eta = 0.01
+# lam0s = np.linspace(0, 1, 100)
+# ws = np.linspace(0, ws_upperlimit, 100)
+# eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
+wupperbound = []
+wlowerbound = []
+wmidband = []
 for i, lam in enumerate(lam0s):
     if lam == 0:
         mx = ising.mx_free(J, wx)
     else:
         mx = ising.variational_mx(J, wx, W, lam)
     mxs.append(mx)
+    
+    wupperbound.append(2*((2*J) + wx + 4*lam**2*mx/W))
+    wlowerbound.append(2*np.abs((2*J) - (wx + 4*lam**2*mx/W)))
+    wmidband.append(2*ising.f_ek(np.pi/2, J, wx + 4*lam**2*mx/W))
     
     for j, w in enumerate(ws):
         chixx0 = ising.f_chixx0(w + 1j*eta, J, wx + 4*lam**2*mx/W)
@@ -117,11 +137,15 @@ cbar = fig.colorbar(cm,
                     pad = 0.0,
                     aspect = 60,
                     label=r'$-{\rm Im}D(\omega) \Omega$')
+ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
+ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+# ax.plot(lam0s, wmidband, c='k', ls='--', lw='1')
 
 ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_ylabel(r'$\omega / \Omega$')
 # ax.set_yticklabels([])
 ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; J / \Omega = {J}$', fontsize=14)
+ax.set_ylim(0, ws_upperlimit)
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
@@ -144,4 +168,4 @@ axin.set_ylim(-0.1, 1.1)
 # axin2.set_yscale('log')
 # axin2.axvline(2, c='k', lw='0.5')
 
-fig.savefig('plots/alt_ising_photon_response_letter.jpeg', bbox_inches='tight', dpi=300)
+fig.savefig('plots/ising_photon_response_letter.jpeg', bbox_inches='tight', dpi=300)
