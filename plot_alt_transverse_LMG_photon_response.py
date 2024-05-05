@@ -26,8 +26,8 @@ chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
-    mx = tLMG.variational_mx(wx, wz, J, W, lam)
-    mz = -np.sqrt(1-mx**2)
+    mz = tLMG.variational_mz(wx, wz, J, W, lam)
+    mx = -np.sqrt(1-mz**2)
     mxs.append(mx)
     mzs.append(mz)
     
@@ -133,8 +133,8 @@ chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
-    mx = tLMG.variational_mx(wx, wz, J, W, lam)
-    mz = -np.sqrt(1-mx**2)
+    mz = tLMG.variational_mz(wx, wz, J, W, lam)
+    mx = -np.sqrt(1-mz**2)
     mxs.append(mx)
     mzs.append(mz)
     
@@ -238,8 +238,8 @@ chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
-    mx = tLMG.variational_mx(wx, wz, J, W, lam)
-    mz = -np.sqrt(1-mx**2)
+    mz = tLMG.variational_mz(wx, wz, J, W, lam)
+    mx = -np.sqrt(1-mz**2)
     mxs.append(mx)
     mzs.append(mz)
     
@@ -337,8 +337,8 @@ chizzs = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
 mzs = []
 for i, lam in enumerate(lam0s):
-    mx = tLMG.variational_mx(wx, wz, J, W, lam)
-    mz = -np.sqrt(1-mx**2)
+    mz = tLMG.variational_mz(wx, wz, J, W, lam)
+    mx = -np.sqrt(1-mz**2)
     mxs.append(mx)
     mzs.append(mz)
     
@@ -426,4 +426,4 @@ axin2.text(0.5,
 axin2.set_xticklabels([])
 axin2.set_yticklabels([])
 
-fig.savefig('plots/transverse_LMG_photon_response.jpeg', bbox_inches='tight', dpi=300)
+fig.savefig('plots/alt_transverse_LMG_photon_response.jpeg', bbox_inches='tight', dpi=300)
