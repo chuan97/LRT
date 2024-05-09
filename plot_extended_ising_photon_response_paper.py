@@ -7,6 +7,7 @@ import ising
 import dicke
 import plot
 import green
+import polaritons
 
 plot.set_rcParams(size = (9.5, 18), lw = 2, fs = 16)
 
@@ -17,10 +18,10 @@ ax = axes[0, 0]
 
 W = 1
 wx = 0.0
-J = 0.75
+J = 0.2
 
-ws_upperlimit = 4
-lam_rightlimit = 1.5
+ws_upperlimit = 1.5
+lam_rightlimit = 0.75
 lam0s = np.linspace(0, lam_rightlimit, 100)
 ws = np.linspace(0, ws_upperlimit, 100)
 eta = 0.01
@@ -89,6 +90,28 @@ ax.text(0.05,
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
@@ -120,7 +143,7 @@ axin.set_xlim(0, lam_rightlimit)
 # ################################ NEW PLOT ##################################
 ax = axes[0, 1]
 
-wx=0.1
+wx=0.075
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
@@ -184,6 +207,28 @@ ax.text(0.05,
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
@@ -217,10 +262,10 @@ ax = axes[1, 0]
 
 W = 1
 wx = 0.0
-J = 0.5
+J = 0.2
 
-ws_upperlimit = 3
-lam_rightlimit = 1.2
+ws_upperlimit = 1.5
+lam_rightlimit = 0.75
 lam0s = np.linspace(0, lam_rightlimit, 100)
 ws = np.linspace(0, ws_upperlimit, 100)
 eta = 0.01
@@ -286,6 +331,28 @@ ax.text(0.05,
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
@@ -317,7 +384,7 @@ axin.set_xlim(0, lam_rightlimit)
 # ################################ NEW PLOT ##################################
 ax = axes[1, 1]
 
-wx=0.1
+wx=0.035
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
@@ -380,6 +447,28 @@ ax.text(0.05,
         )
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
@@ -480,6 +569,28 @@ ax.text(0.05,
         )
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
@@ -586,6 +697,28 @@ ax.text(0.05,
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
@@ -616,10 +749,10 @@ axin.set_xlim(0, lam_rightlimit)
 # ################################ NEW PLOT ##################################
 ax = axes[3, 0]
 
-J = 0.15
+J = 0.25
 wx = 0.0
 
-ws_upperlimit = 1.5
+ws_upperlimit = 2
 lam_rightlimit = 1
 lam0s = np.linspace(0, lam_rightlimit, 100)
 ws = np.linspace(0, ws_upperlimit, 100)
@@ -685,6 +818,28 @@ ax.text(0.05,
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
@@ -716,7 +871,7 @@ axin.set_xlim(0, lam_rightlimit)
 # ################################ NEW PLOT ##################################
 ax = axes[3, 1]
 
-wx = 0.1
+wx = 0.05
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
@@ -789,6 +944,28 @@ ax.text(0.05,
         )
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    if lam < 0.6:
+        pm, pp = polaritons.normal(W, 4*J, lam/np.sqrt(2))
+    else:
+        pm, pp = None, None
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+    
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$ (exact polaritons)", 
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.legend(loc='lower right', fontsize=10)
+# ---------- two oscillator polaritons -------------
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')

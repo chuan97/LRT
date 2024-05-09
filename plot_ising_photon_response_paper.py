@@ -212,6 +212,8 @@ ax = axes[1, 0]
 J = 0.25
 wx = 0.0
 
+data = np.load('data/exact_0.25_1_0.001_10_40.npz')
+
 ws_upperlimit = 2
 lam_rightlimit = 1
 lam0s = np.linspace(0, lam_rightlimit, 100)
@@ -250,7 +252,9 @@ cm = ax.pcolormesh(lam0s,
                    cmap='BuPu',
                    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
                    )
-
+ax.plot(lam0s, 10*(data['e2'] - data['e1']), c='r')
+data = np.load('data/exact_0.25_1_0.001_8_40.npz')
+ax.plot(lam0s, 8*(data['e2'] - data['e1']), c='b')
 ax.set_ylim(0, ws_upperlimit)
 ax.set_xlabel(r'$\lambda / \Omega$')
 # ax.set_xticklabels([])
@@ -281,6 +285,8 @@ ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
+axin.plot(lam0s, 2*np.abs(data['mzs']), c='tab:red', ls='--')
+axin.plot(lam0s, 2*np.abs(data['mxs']), c='tab:blue', ls='--')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)

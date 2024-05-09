@@ -23,10 +23,11 @@ eta = 0.01
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
 mxs = []
+upper_polariton = []
 for i, lam in enumerate(lam0s):
     mx = dicke.f_mx(wz, z, W, lam)
     mxs.append(mx)
-        
+    upper_polariton.append(np.sqrt(wz**2 + (4*lam**2*mx/W)**2))
     for j, w in enumerate(ws):
         chixx0 = dicke.f_chixx0(w + 1j*eta, wz, 2*lam**2*mx/W)
         Vind = dicke.f_Vind(w + 1j*eta, W, lam, z)
@@ -46,7 +47,7 @@ cm = ax.pcolormesh(lam0s,
 # cbar = fig.colorbar(cm, pad = 0.0, aspect = 40)
 # ax.axhline(W, c='k', ls=(0, (1, 5)), lw=1)
 # ax.axvline(np.sqrt(W*wz/4),  c='k', ls=(0, (1, 5)), lw=1)
-
+ax.plot(lam0s, upper_polariton, c='g')
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.set_xticklabels([])
