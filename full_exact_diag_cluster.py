@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.linalg import eigh
 import math
 
 from collections import namedtuple
@@ -180,20 +181,87 @@ def spectral_dec(ws, A, B, vals, vects):
     
     return chi
 
-def sparse_spectral_dec(ws, A, B, vals, vects):
-    e0 = vals[0]
-    v0 = vects[:, 0]
-    chi = np.zeros(len(ws), dtype=complex)
+
+J = 0.25
+W = 1
+wx = 0.001
+#lam0s = np.linspace(1.1, 1.6, 100)
+lam0s = np.linspace(0, 1, 100)
+n_bosons = 40
+Ns = [2, 4, 6, 8]
+
+eta = 0.01
+
+ws = np.linspace(0, 2, 100)
+
+for N in Ns:
+    print(f'Computing N={N}...')
+    mxs = []
+    mzs = []
+    nphots = []
+    energies = []
+    e1 = []
+    e2 = []
+    Ds = np.empty((len(lam0s), len(ws)), dtype=complex)
     
-    for n, val in enumerate(vals):
-        v = vects[:, n]
-        delta = val - e0
+    for i in range(len(lam0s)):
+        print(f'N={N}, it {i+1}/{len(lam0s)}')
+
+        lam = lam0s[i]
+        H = dicke_ising(J, W, wx, lam, N, n_bosons)
+        H = H.todense()
+        vals, vects = eigh(H)
+        energies.append(vals[0] / N)
+        e1.append(vals[1]/N)
+        e2.append(vals[2]/N)
+        v0 = vects[:, 0]
         
-        t1 = np.vdot(v0, A.dot(v))
-        t2 = np.vdot(v, B.dot(v0))
-        t3 = np.vdot(v, A.dot(v0))
-        t4 = np.vdot(v0, B.dot(v))
-            
-        chi += t1*t2/(ws - delta) - t3*t4/(ws + delta)
+        Sz, Sp, Sm, Seye = spin_operators(1/2)
+        Sx = 0.5 * (Sp + Sm)
+        a, ad, beye = boson_operators(n_bosons)
+        
+        Sz_full = csr_matrix((2**N*(n_bosons + 1), 2**N*(n_bosons + 1)))
+        for n in range(N):
+            op_chain = [Seye]*n + [Sz] + [Seye]*(N - n - 1) + [beye]
+            Sz_full += sparse_kron(*op_chain)
+        
+        Sx_full = csr_matrix((2**N*(n_bosons + 1), 2**N*(n_bosons + 1)))
+        for n in range(N):
+            op_chain = [Seye]*n + [Sx] + [Seye]*(N - n - 1) + [beye]
+            Sx_full += sparse_kron(*op_chain)
+        
+        op_chain = [Seye]*N + [ad @ a]
+        nphot_full = sparse_kron(*op_chain)
+        
+        op_chain = [Seye]*N + [a]
+        a_full = sparse_kron(*op_chain)
+        
+        op_chain = [Seye]*N + [ad]
+        ad_full = sparse_kron(*op_chain)
+        
+        Ds[i, :] = spectral_dec(ws+1j*eta, a_full, ad_full, vals, vects)
+        
+        # mzs.append(np.dot(v0, Sz_full.dot(v0)))
+        # mxs.append(np.dot(v0, Sx_full.dot(v0)))
+        #nphots.append(np.vdot(v0, nphot_full.dot(v0)) / N)
+        mzs.append(np.vdot(v0, np.dot(Sz_full.toarray(), v0)) / N)
+        mxs.append(np.vdot(v0, np.dot(Sx_full.toarray(), v0)) / N)
+        nphots.append(np.vdot(v0, np.dot(nphot_full.toarray(), v0)) / N)
+                
+    energies = np.array(energies)
+    mzs = np.array(mzs)
+    mxs = np.array(mxs)
+    nphots = np.array(nphots)
+    e1 = np.array(e1)
+    e2 = np.array(e2)
     
-    return chi
+    np.savez(f'full_exact_{J}_{W}_{wx}_{N}_{n_bosons}',
+             lam0s=lam0s,
+             e0s=energies,
+             mzs=mzs,
+             mxs=mxs,
+             nphots=nphots,
+             e1=e1,
+             e2=e2,
+             Ds=Ds
+             )

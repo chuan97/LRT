@@ -392,23 +392,23 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, 1)
 
-# axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
-# cm2 = axin2.pcolormesh(lam0s,
-#                    ws,
-#                    chizzs.T.imag,
-#                    cmap='OrRd',
-#                    norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
-#                    )
-# axin2.text(0.5,
-#            0.8,
-#            r'${\rm Im}\chi_{zz}(\omega) \Omega$',
-#            fontsize=12,
-#            horizontalalignment='center',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
-# axin2.set_xticklabels([])
-# axin2.set_yticklabels([])
+axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+cm2 = axin2.pcolormesh(lam0s,
+                   ws,
+                   chizzs.T.imag,
+                   cmap='OrRd',
+                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+                   )
+axin2.text(0.5,
+           0.8,
+           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
+axin2.set_xticklabels([])
+axin2.set_yticklabels([])
 
 ax = axes[1, 1]
 
@@ -543,23 +543,23 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, 1)
 
-# axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
-# cm2 = axin2.pcolormesh(lam0s,
-#                    ws,
-#                    chizzs.T.imag,
-#                    cmap='OrRd',
-#                    norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
-#                    )
-# axin2.text(0.5,
-#            0.8,
-#            r'${\rm Im}\chi_{zz}(\omega) \Omega$',
-#            fontsize=12,
-#            horizontalalignment='center',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
-# axin2.set_xticklabels([])
-# axin2.set_yticklabels([])
+axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+cm2 = axin2.pcolormesh(lam0s,
+                   ws,
+                   chizzs.T.imag,
+                   cmap='OrRd',
+                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+                   )
+axin2.text(0.5,
+           0.8,
+           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
+axin2.set_xticklabels([])
+axin2.set_yticklabels([])
 
 fig.savefig('plots/transverse_LMG_photon_response_paper.jpeg',
             bbox_inches='tight',
