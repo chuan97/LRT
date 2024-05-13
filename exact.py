@@ -162,6 +162,37 @@ def dicke_ising(J, wc, wx, lam, N, n_bosons):
         
     return Hi + Hb + Hc + Hcav
 
+def open_dicke_ising(J, wc, wx, lam, N, n_bosons):
+    Sz, Sp, Sm, Seye = spin_operators(1/2)
+    Sx = 0.5 * (Sp + Sm)
+    a, ad, beye = boson_operators(n_bosons)
+    
+    sz = 2*Sz
+    sx = 2*Sx
+    # ising interaction
+    Hi = csr_matrix((2**N*(n_bosons + 1), 2**N*(n_bosons + 1)))
+    for i in range(N-1):
+        op_chain = [Seye]*i + [sz, sz] + [Seye]*(N - i - 2) + [beye]
+        Hi += -J * sparse_kron(*op_chain)
+    
+    # classical field
+    Hb = csr_matrix((2**N*(n_bosons + 1), 2**N*(n_bosons + 1)))
+    for i in range(N):
+        op_chain = [Seye]*i + [sx + sz] + [Seye]*(N - i - 1) + [beye]
+        Hb += 0.5*wx * sparse_kron(*op_chain)
+    
+    # cavity energy
+    op_chain = [Seye]*N + [ad @ a]
+    Hcav = wc * sparse_kron(*op_chain)
+    
+    # dicke interaction
+    Hc = csr_matrix((2**N*(n_bosons + 1), 2**N*(n_bosons + 1)))
+    for i in range(N):
+        op_chain = [Seye]*i + [sx] + [Seye]*(N - i - 1) + [a + ad]
+        Hb += lam/np.sqrt(N) * sparse_kron(*op_chain)
+        
+    return Hi + Hb + Hc + Hcav
+
 def spectral_dec(ws, A, B, vals, vects):
     e0 = vals[0]
     v0 = vects[:, 0]

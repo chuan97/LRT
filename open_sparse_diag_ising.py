@@ -9,14 +9,14 @@ wx = 0.00
 #lam0s = np.linspace(1.1, 1.6, 100)
 lam0s = np.linspace(0, 1, 100)
 n_bosons = 40
-Ns = [2, 4, 6, 8, 10, 12, 14, 16, 18]
+Ns = [2, 4, 6, 8, 10, 12, 14]
 
 eta = 0.01
 
 ws = np.linspace(0, 2, 100)
 
 for N in Ns:
-    k = min(40 * N, 2**N * (n_bosons+1))
+    k = 2*N
     print(f'Computing N={N}...')
     mxs = []
     mzs = []
@@ -28,7 +28,7 @@ for N in Ns:
     
     for i in tqdm(range(len(lam0s))):
         lam = lam0s[i]
-        H = ed.dicke_ising(J, W, wx, lam, N, n_bosons)
+        H = ed.open_dicke_ising(J, W, wx, lam, N, n_bosons)
         vals, vects = ed.lanczos_ed(H, k=k, compute_eigenvectors=True)
         energies.append(vals[0] / N)
         e1.append(vals[1]/N)
@@ -74,7 +74,7 @@ for N in Ns:
     e1 = np.array(e1)
     e2 = np.array(e2)
     
-    np.savez(f'data/sparse_exact_{J}_{W}_{wx}_{N}_{n_bosons}',
+    np.savez(f'data/open_sparse_exact_{J}_{W}_{wx}_{N}_{n_bosons}',
              lam0s=lam0s,
              e0s=energies,
              mzs=mzs,
