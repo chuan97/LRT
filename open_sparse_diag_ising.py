@@ -16,7 +16,7 @@ eta = 0.01
 ws = np.linspace(0, 2, 100)
 
 for N in Ns:
-    k = 2*N
+    k = 20*N
     print(f'Computing N={N}...')
     mxs = []
     mzs = []

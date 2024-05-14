@@ -24,8 +24,8 @@ lam_rightlimit = 1
 lam0s = np.linspace(0, lam_rightlimit, 100)
 ws = np.linspace(0, ws_upperlimit, 100)
 
-N = 12
-data = np.load(f'data/sparse_exact_0.25_1_0.0_{N}_40.npz')
+N = 8
+data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
 
 Ds = data['Ds']
 
@@ -46,7 +46,7 @@ cbar.set_label(label=r'$-{\rm Im}D(\omega) \Omega$',
                )
 cbar.ax.xaxis.set_label_position('top')
 cax.tick_params(labelsize=12)
-ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--', label='gap')
+# ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--', label='gap')
 ax.legend(loc='upper left')
 ax.set_ylim(0, ws_upperlimit)
 # ax.set_xlabel(r'$\lambda / \Omega$')
@@ -132,7 +132,7 @@ ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 
 ax = axes[0, 1]
 
-N = 8
+N = 6
 data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
 
 Ds = data['Ds']
@@ -153,7 +153,7 @@ cbar.set_label(label=r'$-{\rm Im}D(\omega) \Omega$',
                )
 cbar.ax.xaxis.set_label_position('top')
 cax.tick_params(labelsize=12)
-ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--')
+# ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--')
 ax.set_ylim(0, ws_upperlimit)
 # ax.set_xlabel(r'$\lambda / \Omega$')
 # ax.set_xticklabels([])
@@ -291,7 +291,7 @@ cbar.set_label(label=r'$-{\rm Im}D(\omega) \Omega$',
                )
 cbar.ax.xaxis.set_label_position('top')
 cax.tick_params(labelsize=12)
-Ns = [2, 4, 6, 8, 10, 12]
+Ns = [2, 4, 6, 8, 10, 12, 14]
 for i, N in enumerate(Ns):
     data = np.load(f'data/sparse_exact_0.25_1_0.0_{N}_40.npz')
     ax.plot(lam0s,
@@ -388,7 +388,7 @@ axin.set_xlim(0, lam_rightlimit)
 
 ax = axes[1, 1]
 
-N = 4
+N = 14
 data = np.load(f'data/sparse_exact_0.25_1_0.0_{N}_40.npz')
 
 Ds = data['Ds']
@@ -409,7 +409,7 @@ cbar.set_label(label=r'$-{\rm Im}D(\omega) \Omega$',
                )
 cbar.ax.xaxis.set_label_position('top')
 cax.tick_params(labelsize=12)
-ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--')
+# ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--')
 ax.set_ylim(0, ws_upperlimit)
 ax.set_xlabel(r'$\lambda / \Omega$')
 # ax.set_xticklabels([])

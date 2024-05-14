@@ -3,3 +3,4 @@ __pycache__
 /old
 /data
 *.ipynb
+.DS_Store
