@@ -5,11 +5,11 @@ from tqdm import tqdm
 
 J = 0.25
 W = 1
-wx = 0.00
+wx = 0.001
 #lam0s = np.linspace(1.1, 1.6, 100)
 lam0s = np.linspace(0, 1, 100)
 n_bosons = 40
-Ns = [2, 4, 6, 8, 10, 12, 14]
+Ns = [14]
 
 eta = 0.01
 

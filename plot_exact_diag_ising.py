@@ -24,7 +24,7 @@ lam_rightlimit = 1
 lam0s = np.linspace(0, lam_rightlimit, 100)
 ws = np.linspace(0, ws_upperlimit, 100)
 
-N = 8
+N = 14
 data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
 
 Ds = data['Ds']
@@ -132,7 +132,7 @@ ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 
 ax = axes[0, 1]
 
-N = 6
+N = 10
 data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
 
 Ds = data['Ds']
@@ -388,8 +388,8 @@ axin.set_xlim(0, lam_rightlimit)
 
 ax = axes[1, 1]
 
-N = 14
-data = np.load(f'data/sparse_exact_0.25_1_0.0_{N}_40.npz')
+N = 6
+data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
 
 Ds = data['Ds']
 cm = ax.pcolormesh(lam0s,
@@ -473,32 +473,34 @@ axes[0, 0].plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 axes[0, 1].plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 axes[0, 1].plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 
-# axin = inset_axes(ax, width="30%", height="20%", loc=1)
-# axin.plot(lam0s, 2*np.abs(data['mzs']), c='r')
-# axin.plot(lam0s, 2*np.abs(data['mxs']), c='b')
-# axin.set_xticklabels([])
-# axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
-# axin.tick_params(axis='y', which='major', labelsize=12)
-# axin.text(0.05,
-#           0.7,
-#           r'$|m_z|$',
-#           c='r',
-#           fontsize=12,
-#           horizontalalignment='left',
-#           verticalalignment='center',
-#           transform=axin.transAxes
-#           )
-# axin.text(0.95,
-#           0.7,
-#           r'$|m_x|$',
-#           c='b',
-#           fontsize=12,
-#           horizontalalignment='right',
-#           verticalalignment='center',
-#           transform=axin.transAxes
-#           )
-# axin.set_ylim(-0.1, 1.1)
-# axin.set_xlim(0, lam_rightlimit)
+data = np.load(f'data/open_sparse_exact_0.25_1_0.001_{N}_40.npz')
+
+axin = inset_axes(ax, width="30%", height="20%", loc=1)
+axin.plot(lam0s, 2*np.abs(data['mzs']), c='r')
+axin.plot(lam0s, 2*np.abs(data['mxs']), c='b')
+axin.set_xticklabels([])
+axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
+axin.tick_params(axis='y', which='major', labelsize=12)
+axin.text(0.05,
+          0.7,
+          r'$|m_z|$',
+          c='r',
+          fontsize=12,
+          horizontalalignment='left',
+          verticalalignment='center',
+          transform=axin.transAxes
+          )
+axin.text(0.95,
+          0.7,
+          r'$|m_x|$',
+          c='b',
+          fontsize=12,
+          horizontalalignment='right',
+          verticalalignment='center',
+          transform=axin.transAxes
+          )
+axin.set_ylim(-0.1, 1.1)
+axin.set_xlim(0, lam_rightlimit)
 
 fig.savefig('plots/exact_diag_ising.jpeg',
             bbox_inches='tight',
