@@ -147,7 +147,7 @@ def dicke_ising(J, wc, wx, lam, N, n_bosons):
     # classical field
     Hb = csr_matrix((2**N*(n_bosons + 1), 2**N*(n_bosons + 1)))
     for i in range(N):
-        op_chain = [Seye]*i + [sx + sz] + [Seye]*(N - i - 1) + [beye]
+        op_chain = [Seye]*i + [sx] + [Seye]*(N - i - 1) + [beye]
         Hb += 0.5*wx * sparse_kron(*op_chain)
     
     # cavity energy

@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 J = 0.25
 W = 1
-wx = 0.001
+wx = 0.2
 #lam0s = np.linspace(1.1, 1.6, 100)
 lam0s = np.linspace(0, 1, 100)
 n_bosons = 40

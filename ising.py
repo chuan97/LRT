@@ -61,12 +61,12 @@ def imchixx0_kernel(k, w, J, wx, eta):
 def f_chixx0(w_complex, J, wx):
     w, eta = w_complex.real, w_complex.imag
     
-    re = -4*(2*J)**2 / (2*np.pi) * quad(chixx0_kernel,
+    re = -4*(2*J)**2 / np.pi * quad(chixx0_kernel,
                                         0,
                                         2*np.pi,
                                         args=(w, J, wx, eta)
                                         )[0]
-    im = 2*eta*w * 4*(2*J)**2 / (2*np.pi) * quad(imchixx0_kernel,
+    im = 2*eta*w * 4*(2*J)**2 / np.pi * quad(imchixx0_kernel,
                                                  0,
                                                  2*np.pi,
                                                  args=(w, J, wx, eta)
@@ -91,12 +91,12 @@ def altimchixx0_kernel(k, w, J, wx, eta):
 def f_chixx0_alt(w_complex, J, wx):
     w, eta = w_complex.real, w_complex.imag
     
-    re = -4*(2*J)**2 / (2*np.pi) * quad(altchixx0_kernel,
+    re = -4*(2*J)**2 / np.pi * quad(altchixx0_kernel,
                                   0,
                                   2*np.pi,
                                   args=(w, J, wx, eta)
                                   )[0]
-    im = eta * 4*(2*J)**2 / (2*np.pi) * quad(altimchixx0_kernel,
+    im = eta * 4*(2*J)**2 / np.pi * quad(altimchixx0_kernel,
                               0,
                               2*np.pi,
                               args=(w, J, wx, eta)
