@@ -9,7 +9,7 @@ wx = 0.2
 #lam0s = np.linspace(1.1, 1.6, 100)
 lam0s = np.linspace(0, 1, 100)
 n_bosons = 40
-Ns = [14]
+Ns = [4, 14]
 
 eta = 0.01
 

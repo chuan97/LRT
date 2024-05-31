@@ -16,7 +16,7 @@ fig, axes = plt.subplots(3, 2, constrained_layout=True)
 ax = axes[0, 0]
 
 J = 0.25
-wx = 0
+wx = 0.0
 W = 1
 eta = 0.01
 
@@ -139,7 +139,7 @@ axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
+axin.text(0.03,
           0.7,
           r'$|m_z|$',
           c='r',
@@ -148,7 +148,7 @@ axin.text(0.05,
           verticalalignment='center',
           transform=axin.transAxes
           )
-axin.text(0.95,
+axin.text(0.97,
           0.7,
           r'$|m_x|$',
           c='b',
@@ -167,7 +167,7 @@ lam0s_alt = np.linspace(0, lam_rightlimit, 100)
 ws_alt = np.linspace(0, ws_upperlimit, 100)
 
 N = 14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
+data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
 
 Ds = data['Ds']
 cm = ax.pcolormesh(lam0s_alt,
@@ -206,14 +206,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
-# ax.text(0.05,
-#         0.125,
-#         rf'$\omega_x/\Omega = {wx}$',
-#         fontsize=12,
-#         horizontalalignment='left',
-#         verticalalignment='center',
-#         transform=ax.transAxes
-#         )
+ax.text(0.05,
+        0.125,
+        rf'$\omega_x/\Omega = {wx}$',
+        fontsize=12,
+        horizontalalignment='left',
+        verticalalignment='center',
+        transform=ax.transAxes
+        )
 # ax.text(0.05,
 #         0.05,
 #         rf'$J/\Omega = {J}$',
@@ -224,8 +224,8 @@ ax.text(0.05,
 #         )
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
-# ax.axvline(lam0s[idx], ymin=0.085, c='k', lw=1, ls=(0, (5, 10)))
-# ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -258,7 +258,7 @@ axin.plot(lam0s_alt, 2*np.abs(data['mxs']), c='b')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
+axin.text(0.03,
           0.7,
           r'$|m_z|$',
           c='r',
@@ -267,7 +267,7 @@ axin.text(0.05,
           verticalalignment='center',
           transform=axin.transAxes
           )
-axin.text(0.95,
+axin.text(0.97,
           0.7,
           r'$|m_x|$',
           c='b',
@@ -279,61 +279,55 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, lam_rightlimit)
 
-# axin2 = inset_axes(ax, width="30%", height="35%", loc=4)
-# Ns = [4, 14]
+axin2 = inset_axes(ax, width="30%", height="35%", loc=4)
+Ns = [4, 14]
 
-# for N in Ns:
-#     data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
-#     Ds = data['Ds']
-#     lam0s = data['lam0s']
+for N in Ns:
+    data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
+    Ds = data['Ds']
+    lam0s = data['lam0s']
     
-#     axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
+    axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
 
-# axin2.text(0.5,
-#            0.9,
-#            r'$-{\rm Im}D(\omega) \Omega$',
-#            fontsize=12,
-#            horizontalalignment='center',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.5,
+           0.9,
+           r'$-{\rm Im}D(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
-# axin2.text(0.05,
-#            0.5,
-#            r'$N=14$',
-#            c='tab:orange',
-#            fontsize=10,
-#            horizontalalignment='left',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.05,
+           0.5,
+           r'$N=14$',
+           c='tab:orange',
+           fontsize=10,
+           horizontalalignment='left',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
-# axin2.text(0.5,
-#            0.15,
-#            r'$N=4$',
-#            c='tab:blue',
-#            fontsize=10,
-#            horizontalalignment='left',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.5,
+           0.15,
+           r'$N=4$',
+           c='tab:blue',
+           fontsize=10,
+           horizontalalignment='left',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
     
-# axin2.set_yticklabels([])
-# axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
-# axin2.tick_params(axis='x', which='major', labelsize=10)
-# axin2.set_xlim(1e-2, 1e2)
-# axin2.set_xscale('log')
-# axin2.set_ylim(0, ws_upperlimit)
+axin2.set_yticklabels([])
+axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
+axin2.tick_params(axis='x', which='major', labelsize=10)
+axin2.set_xlim(1e-2, 1e2)
+axin2.set_xscale('log')
+axin2.set_ylim(0, ws_upperlimit)
 
-# axin2.xaxis.tick_top()
-# axin2.set_xticks([1e-2, 1e0])
-
-# for child in axin2.get_children():
-#     if isinstance(child, mpl.spines.Spine):
-#         child.set_color('slategray')
-        
-# axin2.tick_params(color='slategray')
+axin2.xaxis.tick_top()
+axin2.set_xticks([1e-2, 1e0])
 
 ax = axes[1, 0]
 
@@ -449,7 +443,7 @@ axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
+axin.text(0.03,
           0.7,
           r'$|m_z|$',
           c='r',
@@ -458,7 +452,7 @@ axin.text(0.05,
           verticalalignment='center',
           transform=axin.transAxes
           )
-axin.text(0.95,
+axin.text(0.97,
           0.7,
           r'$|m_x|$',
           c='b',
@@ -532,8 +526,8 @@ ax.text(0.05,
 
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
-# ax.axvline(lam0s[idx], ymin=0.085, c='k', lw=1, ls=(0, (5, 10)))
-# ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -558,7 +552,7 @@ ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 # ---------- two oscillator polaritons -------------
 
 N=14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.05_{N}_40.npz')
+data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40_broken.npz')
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s_alt, 2*np.abs(data['mzs']), c='r')
@@ -566,7 +560,7 @@ axin.plot(lam0s_alt, 2*np.abs(data['mxs']), c='b')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
+axin.text(0.03,
           0.7,
           r'$|m_z|$',
           c='r',
@@ -575,7 +569,7 @@ axin.text(0.05,
           verticalalignment='center',
           transform=axin.transAxes
           )
-axin.text(0.95,
+axin.text(0.97,
           0.7,
           r'$|m_x|$',
           c='b',
@@ -587,61 +581,56 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, lam_rightlimit)
 
-# axin2 = inset_axes(ax, width="30%", height="35%", loc=4)
-# Ns = [4, 14]
+axin2 = inset_axes(ax, width="30%", height="35%", loc=4)
+Ns = [4, 14]
 
-# for N in Ns:
-#     data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
-#     Ds = data['Ds']
-#     lam0s = data['lam0s']
+for N in Ns:
+    data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
+    Ds = data['Ds']
+    lam0s = data['lam0s']
     
-#     axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
+    axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
 
-# axin2.text(0.5,
-#            0.9,
-#            r'$-{\rm Im}D(\omega) \Omega$',
-#            fontsize=12,
-#            horizontalalignment='center',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.5,
+           0.9,
+           r'$-{\rm Im}D(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
-# axin2.text(0.05,
-#            0.5,
-#            r'$N=14$',
-#            c='tab:orange',
-#            fontsize=10,
-#            horizontalalignment='left',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.05,
+           0.5,
+           r'$N=14$',
+           c='tab:orange',
+           fontsize=10,
+           horizontalalignment='left',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
-# axin2.text(0.5,
-#            0.15,
-#            r'$N=4$',
-#            c='tab:blue',
-#            fontsize=10,
-#            horizontalalignment='left',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.5,
+           0.15,
+           r'$N=4$',
+           c='tab:blue',
+           fontsize=10,
+           horizontalalignment='left',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
     
-# axin2.set_yticklabels([])
-# axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
-# axin2.tick_params(axis='x', which='major', labelsize=10)
-# axin2.set_xlim(1e-2, 1e2)
-# axin2.set_xscale('log')
-# axin2.set_ylim(0, ws_upperlimit)
+axin2.set_yticklabels([])
+axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
+axin2.tick_params(axis='x', which='major', labelsize=10)
+axin2.set_xlim(1e-2, 1e2)
+axin2.set_xscale('log')
+axin2.set_ylim(0, ws_upperlimit)
 
-# axin2.xaxis.tick_top()
-# axin2.set_xticks([1e-2, 1e0])
+axin2.xaxis.tick_top()
+axin2.set_xticks([1e-2, 1e0])
 
-# for child in axin2.get_children():
-#     if isinstance(child, mpl.spines.Spine):
-#         child.set_color('slategray')
-        
-# axin2.tick_params(color='slategray')
 
 ax = axes[2, 0]
 
@@ -757,7 +746,7 @@ axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
+axin.text(0.03,
           0.7,
           r'$|m_z|$',
           c='r',
@@ -766,7 +755,7 @@ axin.text(0.05,
           verticalalignment='center',
           transform=axin.transAxes
           )
-axin.text(0.95,
+axin.text(0.97,
           0.7,
           r'$|m_x|$',
           c='b',
@@ -782,7 +771,8 @@ axin.set_xlim(0, lam_rightlimit)
 ax = axes[2, 1]
 
 N = 14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.05_{N}_40.npz')
+data = np.load(f'data/open_sparse_exact_0.25_1_0.2_{N}_40.npz')
+idx=70
 
 Ds = data['Ds']
 cm = ax.pcolormesh(lam0s_alt,
@@ -840,8 +830,8 @@ ax.text(0.05,
 
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
-# ax.axvline(lam0s[idx], ymin=0.085, c='k', lw=1, ls=(0, (5, 10)))
-# ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -866,7 +856,7 @@ ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 # ---------- two oscillator polaritons -------------
 
 N=14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.05_{N}_40.npz')
+data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40_broken.npz')
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s_alt, 2*np.abs(data['mzs']), c='r')
@@ -874,16 +864,16 @@ axin.plot(lam0s_alt, 2*np.abs(data['mxs']), c='b')
 axin.set_xticklabels([])
 axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
 axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
-          0.7,
+axin.text(0.97,
+          0.3,
           r'$|m_z|$',
           c='r',
           fontsize=12,
-          horizontalalignment='left',
+          horizontalalignment='right',
           verticalalignment='center',
           transform=axin.transAxes
           )
-axin.text(0.95,
+axin.text(0.97,
           0.7,
           r'$|m_x|$',
           c='b',
@@ -895,61 +885,56 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, lam_rightlimit)
 
-# axin2 = inset_axes(ax, width="30%", height="35%", loc=4)
-# Ns = [4, 14]
+axin2 = inset_axes(ax, width="30%", height="35%", loc=4)
+Ns = [4, 14]
 
-# for N in Ns:
-#     data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
-#     Ds = data['Ds']
-#     lam0s = data['lam0s']
+for N in Ns:
+    data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
+    Ds = data['Ds']
+    lam0s = data['lam0s']
     
-#     axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
+    axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
 
-# axin2.text(0.5,
-#            0.9,
-#            r'$-{\rm Im}D(\omega) \Omega$',
-#            fontsize=12,
-#            horizontalalignment='center',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.5,
+           0.9,
+           r'$-{\rm Im}D(\omega) \Omega$',
+           fontsize=12,
+           horizontalalignment='center',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
-# axin2.text(0.05,
-#            0.5,
-#            r'$N=14$',
-#            c='tab:orange',
-#            fontsize=10,
-#            horizontalalignment='left',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.05,
+           0.5,
+           r'$N=14$',
+           c='tab:orange',
+           fontsize=10,
+           horizontalalignment='left',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
-# axin2.text(0.5,
-#            0.15,
-#            r'$N=4$',
-#            c='tab:blue',
-#            fontsize=10,
-#            horizontalalignment='left',
-#            verticalalignment='center',
-#            transform=axin2.transAxes
-#            )
+axin2.text(0.5,
+           0.15,
+           r'$N=4$',
+           c='tab:blue',
+           fontsize=10,
+           horizontalalignment='left',
+           verticalalignment='center',
+           transform=axin2.transAxes
+           )
 
     
-# axin2.set_yticklabels([])
-# axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
-# axin2.tick_params(axis='x', which='major', labelsize=10)
-# axin2.set_xlim(1e-2, 1e2)
-# axin2.set_xscale('log')
-# axin2.set_ylim(0, ws_upperlimit)
+axin2.set_yticklabels([])
+axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
+axin2.tick_params(axis='x', which='major', labelsize=10)
+axin2.set_xlim(1e-2, 1e2)
+axin2.set_xscale('log')
+axin2.set_ylim(0, ws_upperlimit)
 
-# axin2.xaxis.tick_top()
-# axin2.set_xticks([1e-2, 1e0])
+axin2.xaxis.tick_top()
+axin2.set_xticks([1e-2, 1e0])
 
-# for child in axin2.get_children():
-#     if isinstance(child, mpl.spines.Spine):
-#         child.set_color('slategray')
-        
-# axin2.tick_params(color='slategray')
 
 fig.savefig('plots/ising_photon_response_paper_exact.jpeg',
             bbox_inches='tight',
