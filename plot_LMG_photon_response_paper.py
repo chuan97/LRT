@@ -77,6 +77,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
+ax.text(0.05,
+        0.95,
+        '(a)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
 lp_twoosc = []
@@ -94,7 +102,7 @@ ax.plot(lam0s,
         )
 ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 
-ax.legend(loc='upper left', fontsize=12, frameon=False)
+ax.legend(loc='lower right', fontsize=12, frameon=False)
 # ---------- two oscillator polaritons -------------
 
 
@@ -167,6 +175,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.05,
+        0.95,
+        '(b)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
         transform=ax.transAxes
         )
 

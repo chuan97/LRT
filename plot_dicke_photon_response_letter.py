@@ -77,6 +77,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
+ax.text(0.05,
+        0.85,
+        '(a)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
 lp_twoosc = []
@@ -176,7 +184,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
-
+ax.text(0.05,
+        0.85,
+        '(b)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
 lp_twoosc = []

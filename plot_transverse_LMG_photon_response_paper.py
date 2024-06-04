@@ -71,6 +71,7 @@ cm = ax.pcolormesh(lam0s,
                    )
 
 ax.set_ylim(0, 2)
+ax.set_xlim(0, 1)
 # ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_xticklabels([])
 ax.set_ylabel(r'$\omega / \Omega$')
@@ -92,6 +93,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.95,
+        0.05,
+        '(a)',
+        fontsize=16,
+        horizontalalignment='right',
+        verticalalignment='bottom',
         transform=ax.transAxes
         )
 
@@ -147,6 +156,8 @@ axin2.set_xticklabels([])
 axin2.set_yticklabels([])
 axin2.set_xticks(np.arange(0, 1.1, 0.2))
 axin2.set_yticks(np.arange(0, 2.1, 0.5))
+axin2.set_xlim(0, 1)
+axin2.set_ylim(0, 2)
 
 
 ax = axes[0, 1]
@@ -207,6 +218,7 @@ cm = ax.pcolormesh(lam0s,
                    )
 
 ax.set_ylim(0, 2)
+ax.set_xlim(0, 1)
 # ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_xticklabels([])
 ax.set_yticklabels([])
@@ -229,6 +241,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.95,
+        0.05,
+        '(b)',
+        fontsize=16,
+        horizontalalignment='right',
+        verticalalignment='bottom',
         transform=ax.transAxes
         )
 
@@ -281,6 +301,8 @@ axin2.set_xticklabels([])
 axin2.set_yticklabels([])
 axin2.set_xticks(np.arange(0, 1.1, 0.2))
 axin2.set_yticks(np.arange(0, 2.1, 0.5))
+axin2.set_xlim(0, 1)
+axin2.set_ylim(0, 2)
 
 ax = axes[1, 0]
 
@@ -340,6 +362,7 @@ cm = ax.pcolormesh(lam0s,
                    )
 
 ax.set_ylim(0, 2)
+ax.set_xlim(0, 1)
 ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_xticks(np.arange(0, 1.1, 0.2))
@@ -360,6 +383,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.05,
+        0.95,
+        '(c)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
         transform=ax.transAxes
         )
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
@@ -392,23 +423,23 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, 1)
 
-axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
-cm2 = axin2.pcolormesh(lam0s,
-                   ws,
-                   chizzs.T.imag,
-                   cmap='OrRd',
-                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
-                   )
-axin2.text(0.5,
-           0.8,
-           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
-           fontsize=12,
-           horizontalalignment='center',
-           verticalalignment='center',
-           transform=axin2.transAxes
-           )
-axin2.set_xticklabels([])
-axin2.set_yticklabels([])
+# axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+# cm2 = axin2.pcolormesh(lam0s,
+#                    ws,
+#                    chizzs.T.imag,
+#                    cmap='OrRd',
+#                    norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+#                    )
+# axin2.text(0.5,
+#            0.8,
+#            r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+#            fontsize=12,
+#            horizontalalignment='center',
+#            verticalalignment='center',
+#            transform=axin2.transAxes
+#            )
+# axin2.set_xticklabels([])
+# axin2.set_yticklabels([])
 
 ax = axes[1, 1]
 
@@ -490,6 +521,7 @@ cbar.set_label(label=r'$-{\rm Im}D(\omega) \Omega$',
 cbar.ax.xaxis.set_label_position('top')
 cax.tick_params(labelsize=12)
 ax.set_ylim(0, 2)
+ax.set_xlim(0, 1)
 ax.set_xlabel(r'$\lambda / \Omega$')
 ax.set_yticklabels([])
 ax.set_xticks(np.arange(0, 1.1, 0.2))
@@ -510,6 +542,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.05,
+        0.95,
+        '(d)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
         transform=ax.transAxes
         )
 
@@ -543,23 +583,23 @@ axin.text(0.95,
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, 1)
 
-axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
-cm2 = axin2.pcolormesh(lam0s,
-                   ws,
-                   chizzs.T.imag,
-                   cmap='OrRd',
-                   norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
-                   )
-axin2.text(0.5,
-           0.8,
-           r'${\rm Im}\chi_{zz}(\omega) \Omega$',
-           fontsize=12,
-           horizontalalignment='center',
-           verticalalignment='center',
-           transform=axin2.transAxes
-           )
-axin2.set_xticklabels([])
-axin2.set_yticklabels([])
+# axin2 = inset_axes(ax, width="30%", height="30%", loc=2)
+# cm2 = axin2.pcolormesh(lam0s,
+#                    ws,
+#                    chizzs.T.imag,
+#                    cmap='OrRd',
+#                    norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
+#                    )
+# axin2.text(0.5,
+#            0.8,
+#            r'${\rm Im}\chi_{zz}(\omega) \Omega$',
+#            fontsize=12,
+#            horizontalalignment='center',
+#            verticalalignment='center',
+#            transform=axin2.transAxes
+#            )
+# axin2.set_xticklabels([])
+# axin2.set_yticklabels([])
 
 fig.savefig('plots/transverse_LMG_photon_response_paper.jpeg',
             bbox_inches='tight',

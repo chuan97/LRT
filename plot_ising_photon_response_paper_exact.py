@@ -22,8 +22,8 @@ eta = 0.01
 
 ws_upperlimit = 2
 lam_rightlimit = 1
-lam0s = np.linspace(0, lam_rightlimit, 100) 
-ws = np.linspace(0, ws_upperlimit, 100)
+lam0s = np.linspace(0, lam_rightlimit, 200) 
+ws = np.linspace(0, ws_upperlimit, 200)
 idx = 10
 
 Dm = np.empty((len(lam0s), len(ws)), dtype=complex)
@@ -97,6 +97,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.05,
+        0.85,
+        '(a)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
         transform=ax.transAxes
         )
 # ax.text(0.05,
@@ -214,6 +222,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
+axin.text(0.15,
+        0.95,
+        '(b)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ax.text(0.05,
 #         0.05,
 #         rf'$J/\Omega = {J}$',
@@ -224,8 +240,8 @@ ax.text(0.05,
 #         )
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.axvline(lam0s[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
-ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s_alt[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s_alt[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -285,9 +301,9 @@ Ns = [4, 14]
 for N in Ns:
     data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
     Ds = data['Ds']
-    lam0s = data['lam0s']
     
-    axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
+    
+    axin2.plot(-Ds[idx, :].imag, ws_alt, label=rf'$N={N}$')
 
 axin2.text(0.5,
            0.9,
@@ -325,6 +341,8 @@ axin2.tick_params(axis='x', which='major', labelsize=10)
 axin2.set_xlim(1e-2, 1e2)
 axin2.set_xscale('log')
 axin2.set_ylim(0, ws_upperlimit)
+# axin2.axhline(wupperbound[idx], c='k', ls=(0, (1, 10)), lw='1')
+# axin2.axhline(wlowerbound[idx], c='k', ls=(0, (1, 10)), lw='1')
 
 axin2.xaxis.tick_top()
 axin2.set_xticks([1e-2, 1e0])
@@ -401,6 +419,14 @@ ax.text(0.05,
         fontsize=12,
         horizontalalignment='left',
         verticalalignment='center',
+        transform=ax.transAxes
+        )
+ax.text(0.05,
+        0.95,
+        '(c)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
         transform=ax.transAxes
         )
 # ax.text(0.05,
@@ -515,6 +541,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
+axin.text(0.15,
+        0.95,
+        '(d)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ax.text(0.05,
 #         0.05,
 #         rf'$J/\Omega = {J}$',
@@ -526,8 +560,8 @@ ax.text(0.05,
 
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.axvline(lam0s[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
-ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s_alt[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s_alt[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -587,9 +621,9 @@ Ns = [4, 14]
 for N in Ns:
     data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
     Ds = data['Ds']
-    lam0s = data['lam0s']
     
-    axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
+    
+    axin2.plot(-Ds[idx, :].imag, ws_alt, label=rf'$N={N}$')
 
 axin2.text(0.5,
            0.9,
@@ -627,6 +661,8 @@ axin2.tick_params(axis='x', which='major', labelsize=10)
 axin2.set_xlim(1e-2, 1e2)
 axin2.set_xscale('log')
 axin2.set_ylim(0, ws_upperlimit)
+axin2.axhline(wupperbound[idx], c='k', ls=(0, (1, 10)), lw='1')
+axin2.axhline(wlowerbound[idx], c='k', ls=(0, (1, 10)), lw='1')
 
 axin2.xaxis.tick_top()
 axin2.set_xticks([1e-2, 1e0])
@@ -706,6 +742,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
+ax.text(0.05,
+        0.95,
+        '(e)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ax.text(0.05,
 #         0.05,
 #         rf'$J/\Omega = {J}$',
@@ -771,8 +815,8 @@ axin.set_xlim(0, lam_rightlimit)
 ax = axes[2, 1]
 
 N = 14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.2_{N}_40.npz')
-idx=70
+data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
+idx=10
 
 Ds = data['Ds']
 cm = ax.pcolormesh(lam0s_alt,
@@ -819,6 +863,14 @@ ax.text(0.05,
         verticalalignment='center',
         transform=ax.transAxes
         )
+ax.text(0.15,
+        0.95,
+        '(f)',
+        fontsize=16,
+        horizontalalignment='left',
+        verticalalignment='top',
+        transform=ax.transAxes
+        )
 # ax.text(0.05,
 #         0.05,
 #         rf'$J/\Omega = {J}$',
@@ -830,8 +882,8 @@ ax.text(0.05,
 
 ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
 ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.axvline(lam0s[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
-ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s_alt[idx], ymin=0.160, c='k', lw=1, ls=(0, (5, 10)))
+ax.axvline(lam0s_alt[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
 # ---------- two oscillator polaritons -------------
 up_twoosc = []
@@ -891,9 +943,9 @@ Ns = [4, 14]
 for N in Ns:
     data = np.load(f'data/open_sparse_exact_0.25_1_{wx}_{N}_40.npz')
     Ds = data['Ds']
-    lam0s = data['lam0s']
     
-    axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
+    
+    axin2.plot(-Ds[idx, :].imag, ws_alt, label=rf'$N={N}$')
 
 axin2.text(0.5,
            0.9,
@@ -915,7 +967,7 @@ axin2.text(0.05,
            )
 
 axin2.text(0.5,
-           0.15,
+           0.1,
            r'$N=4$',
            c='tab:blue',
            fontsize=10,
@@ -931,6 +983,8 @@ axin2.tick_params(axis='x', which='major', labelsize=10)
 axin2.set_xlim(1e-2, 1e2)
 axin2.set_xscale('log')
 axin2.set_ylim(0, ws_upperlimit)
+axin2.axhline(wupperbound[idx], c='k', ls=(0, (1, 10)), lw='1')
+axin2.axhline(wlowerbound[idx], c='k', ls=(0, (1, 10)), lw='1')
 
 axin2.xaxis.tick_top()
 axin2.set_xticks([1e-2, 1e0])
