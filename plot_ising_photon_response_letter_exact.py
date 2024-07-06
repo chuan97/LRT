@@ -9,7 +9,7 @@ import plot
 import green
 import polaritons
 
-plot.set_rcParams(size = (9.5, 4.5), lw = 2, fs = 16)
+plot.set_rcParams(size=(9.5, 4.5), lw=2, fs=16)
 Ns = []
 fig, axes = plt.subplots(1, 2, constrained_layout=True)
 
@@ -37,60 +37,52 @@ for i, lam in enumerate(lam0s):
         mx = ising.mx_free(J, wx)
     else:
         mx = ising.variational_mx(J, wx, W, lam)
-    mz = ising.mz_exact(J, wx - 4*lam**2*mx/W)
+    mz = ising.mz_exact(J, wx - 4 * lam**2 * mx / W)
     mxs.append(mx)
     mzs.append(mz)
-    
-    wupperbound.append(2*((2*J) + wx - 4*lam**2*mx/W))
-    wlowerbound.append(2*np.abs((2*J) - (wx - 4*lam**2*mx/W)))
-    wmidband.append(2*ising.f_ek(np.pi/2, J, wx - 4*lam**2*mx/W))
-    
+
+    wupperbound.append(2 * ((2 * J) + wx - 4 * lam**2 * mx / W))
+    wlowerbound.append(2 * np.abs((2 * J) - (wx - 4 * lam**2 * mx / W)))
+    wmidband.append(2 * ising.f_ek(np.pi / 2, J, wx - 4 * lam**2 * mx / W))
+
     for j, w in enumerate(ws):
-        chixx0 = ising.f_chixx0(w + 1j*eta, J, wx - 4*lam**2*mx/W)
-        Vind = dicke.f_Vind(w + 1j*eta, W, lam, 0)
+        chixx0 = ising.f_chixx0(w + 1j * eta, J, wx - 4 * lam**2 * mx / W)
+        Vind = dicke.f_Vind(w + 1j * eta, W, lam, 0)
         chixx = green.f_chixx(Vind, chixx0)
-        
-        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
+
+        Dm[i, j] = green.f_Dm(w + 1j * eta, W, lam, chixx)
         # Dm[i, j] = -chixx
 
 vmin = np.amin(-Dm.imag)
 vmax = np.amax(-Dm.imag)
 
-cm = ax.pcolormesh(lam0s,
-                   ws,
-                   -Dm.T.imag,
-                   cmap='BuPu',
-                   norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
-                   )
+cm = ax.pcolormesh(
+    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+)
 cax = ax.inset_axes([0.65, 0.1, 0.3, 0.03], transform=ax.transAxes)
-cbar = fig.colorbar(cm,
-                    cax=cax,
-                    ticks=[1e-2, 1e0, 1e2],
-                    orientation='horizontal'
-                    )
-cbar.set_label(label=r'$-{\rm Im}D(\omega) \Omega$',
-               fontsize=12
-               )
-cbar.ax.xaxis.set_label_position('top')
+cbar = fig.colorbar(cm, cax=cax, ticks=[1e-2, 1e0, 1e2], orientation="horizontal")
+cbar.set_label(label=r"$-{\rm Im}D(\omega) \Omega$", fontsize=12)
+cbar.ax.xaxis.set_label_position("top")
 cax.tick_params(labelsize=12)
 
 ax.set_ylim(0, ws_upperlimit)
 ax.set_xlim(0, lam_rightlimit)
-ax.set_xlabel(r'$\lambda / \Omega$')
+ax.set_xlabel(r"$\lambda / \Omega$")
 # ax.set_xticklabels([])
-ax.set_ylabel(r'$\omega / \Omega$')
-ax.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
-ax.set_yticks(np.arange(0, ws_upperlimit+0.1, 1.0))
+ax.set_ylabel(r"$\omega / \Omega$")
+ax.set_xticks(np.arange(0, lam_rightlimit + 0.1, 0.2))
+ax.set_yticks(np.arange(0, ws_upperlimit + 0.1, 1.0))
 # ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
 #              fontsize=14)
-ax.text(0.05,
-        0.05,
-        r'$N \to \infty$ (exact)',
-        fontsize=12,
-        horizontalalignment='left',
-        verticalalignment='center',
-        transform=ax.transAxes
-        )
+ax.text(
+    0.05,
+    0.05,
+    r"$N \to \infty$ (exact)",
+    fontsize=12,
+    horizontalalignment="left",
+    verticalalignment="center",
+    transform=ax.transAxes,
+)
 # ax.text(0.05,
 #         0.125,
 #         rf'$\omega_x/\Omega = {wx}$',
@@ -107,8 +99,8 @@ ax.text(0.05,
 #         verticalalignment='center',
 #         transform=ax.transAxes
 #         )
-ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+ax.plot(lam0s, wupperbound, c="k", ls=(0, (1, 10)), lw="1")
+ax.plot(lam0s, wlowerbound, c="k", ls=(0, (1, 10)), lw="1")
 # ax.axvline(0.461, c='k', ls=(0, (1, 10)), lw='1')
 
 # ---------- two oscillator polaritons -------------
@@ -116,47 +108,44 @@ up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
     if lam < 0.46:
-        pm, pp = polaritons.normal(W, 4*J, lam)
+        pm, pp = polaritons.normal(W, 4 * J, lam)
     else:
         pm, pp = None, None
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
-    
-ax.plot(lam0s,
-        up_twoosc,
-        c='gold',
-        label=r"polariton fit", 
-        ls='--'
-        )
-ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
 
-ax.legend(loc='upper left', fontsize=10)
+ax.plot(lam0s, up_twoosc, c="gold", label=r"polariton fit", ls="--")
+ax.plot(lam0s, lp_twoosc, c="gold", ls="--")
+
+ax.legend(loc="upper left", fontsize=10)
 # ---------- two oscillator polaritons -------------
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
-axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
-axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
+axin.plot(lam0s, np.abs(mzs), c="r", label=r"$|m_z|$")
+axin.plot(lam0s, np.abs(mxs), c="b", label=r"$|m_x|$")
 axin.set_xticklabels([])
-axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
-axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
-          0.7,
-          r'$|m_z|$',
-          c='r',
-          fontsize=12,
-          horizontalalignment='left',
-          verticalalignment='center',
-          transform=axin.transAxes
-          )
-axin.text(0.95,
-          0.7,
-          r'$|m_x|$',
-          c='b',
-          fontsize=12,
-          horizontalalignment='right',
-          verticalalignment='center',
-          transform=axin.transAxes
-          )
+axin.set_xticks(np.arange(0, lam_rightlimit + 0.1, 0.2))
+axin.tick_params(axis="y", which="major", labelsize=12)
+axin.text(
+    0.05,
+    0.7,
+    r"$|m_z|$",
+    c="r",
+    fontsize=12,
+    horizontalalignment="left",
+    verticalalignment="center",
+    transform=axin.transAxes,
+)
+axin.text(
+    0.95,
+    0.7,
+    r"$|m_x|$",
+    c="b",
+    fontsize=12,
+    horizontalalignment="right",
+    verticalalignment="center",
+    transform=axin.transAxes,
+)
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, lam_rightlimit)
 
@@ -167,18 +156,15 @@ lam0s = np.linspace(0, lam_rightlimit, 100)
 ws = np.linspace(0, ws_upperlimit, 100)
 
 N = 14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.05_{N}_40.npz')
+data = np.load(f"data/open_sparse_exact_0.25_1_0.05_{N}_40.npz")
 
-Ds = data['Ds']
+Ds = data["Ds"]
 print(vmin, vmax)
-print(Ds.imag[Ds.imag>0])
+print(Ds.imag[Ds.imag > 0])
 print(np.amin(-Ds.imag), np.amax(-Ds.imag))
-cm = ax.pcolormesh(lam0s,
-                   ws,
-                   -Ds.T.imag,
-                   cmap='BuPu',
-                   norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
-                   )
+cm = ax.pcolormesh(
+    lam0s, ws, -Ds.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+)
 # cax = ax.inset_axes([0.65, 0.1, 0.3, 0.03], transform=ax.transAxes)
 # cbar = fig.colorbar(cm,
 #                     cax=cax,
@@ -193,22 +179,23 @@ cm = ax.pcolormesh(lam0s,
 # ax.plot(lam0s, N*(data['e2'] - data['e1']), c='r', ls='--')
 ax.set_ylim(0, ws_upperlimit)
 ax.set_xlim(0, lam_rightlimit)
-ax.set_xlabel(r'$\lambda / \Omega$')
+ax.set_xlabel(r"$\lambda / \Omega$")
 # ax.set_xticklabels([])
 # ax.set_ylabel(r'$\omega / \Omega$')
 ax.set_yticklabels([])
-ax.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
-ax.set_yticks(np.arange(0, ws_upperlimit+0.1, 1.0))
+ax.set_xticks(np.arange(0, lam_rightlimit + 0.1, 0.2))
+ax.set_yticks(np.arange(0, ws_upperlimit + 0.1, 1.0))
 # ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; \omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$',
 #              fontsize=14)
-ax.text(0.05,
-        0.05,
-        rf'$N = {N}$',
-        fontsize=12,
-        horizontalalignment='left',
-        verticalalignment='center',
-        transform=ax.transAxes
-        )
+ax.text(
+    0.05,
+    0.05,
+    rf"$N = {N}$",
+    fontsize=12,
+    horizontalalignment="left",
+    verticalalignment="center",
+    transform=ax.transAxes,
+)
 # ax.text(0.05,
 #         0.125,
 #         rf'$\omega_x/\Omega = {wx}$',
@@ -226,8 +213,8 @@ ax.text(0.05,
 #         transform=ax.transAxes
 #         )
 lam0s_alt = np.linspace(0, lam_rightlimit, 100)
-ax.plot(lam0s_alt, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.plot(lam0s_alt, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+ax.plot(lam0s_alt, wupperbound, c="k", ls=(0, (1, 10)), lw="1")
+ax.plot(lam0s_alt, wlowerbound, c="k", ls=(0, (1, 10)), lw="1")
 # ax.axvline(lam0s[idx], ymin=0.085, c='k', lw=1, ls=(0, (5, 10)))
 # ax.axvline(lam0s[idx], ymax=0.05, c='k', lw=1, ls=(0, (5, 10)))
 
@@ -236,50 +223,47 @@ up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
     if lam < 0.46:
-        pm, pp = polaritons.normal(W, 4*J, lam)
+        pm, pp = polaritons.normal(W, 4 * J, lam)
     else:
         pm, pp = None, None
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
-    
-ax.plot(lam0s,
-        up_twoosc,
-        c='gold',
-        label=r"$\Omega_\pm$ (exact polaritons)", 
-        ls='--'
-        )
-ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+ax.plot(lam0s, up_twoosc, c="gold", label=r"$\Omega_\pm$ (exact polaritons)", ls="--")
+ax.plot(lam0s, lp_twoosc, c="gold", ls="--")
 
 # ax.legend(loc='lower right', fontsize=10)
 # ---------- two oscillator polaritons -------------
 
-N=14
-data = np.load(f'data/open_sparse_exact_0.25_1_0.05_{N}_40.npz')
+N = 14
+data = np.load(f"data/open_sparse_exact_0.25_1_0.05_{N}_40.npz")
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
-axin.plot(lam0s, 2*np.abs(data['mzs']), c='r')
-axin.plot(lam0s, 2*np.abs(data['mxs']), c='b')
+axin.plot(lam0s, 2 * np.abs(data["mzs"]), c="r")
+axin.plot(lam0s, 2 * np.abs(data["mxs"]), c="b")
 axin.set_xticklabels([])
-axin.set_xticks(np.arange(0, lam_rightlimit+0.1, 0.2))
-axin.tick_params(axis='y', which='major', labelsize=12)
-axin.text(0.05,
-          0.7,
-          r'$|m_z|$',
-          c='r',
-          fontsize=12,
-          horizontalalignment='left',
-          verticalalignment='center',
-          transform=axin.transAxes
-          )
-axin.text(0.95,
-          0.7,
-          r'$|m_x|$',
-          c='b',
-          fontsize=12,
-          horizontalalignment='right',
-          verticalalignment='center',
-          transform=axin.transAxes
-          )
+axin.set_xticks(np.arange(0, lam_rightlimit + 0.1, 0.2))
+axin.tick_params(axis="y", which="major", labelsize=12)
+axin.text(
+    0.05,
+    0.7,
+    r"$|m_z|$",
+    c="r",
+    fontsize=12,
+    horizontalalignment="left",
+    verticalalignment="center",
+    transform=axin.transAxes,
+)
+axin.text(
+    0.95,
+    0.7,
+    r"$|m_x|$",
+    c="b",
+    fontsize=12,
+    horizontalalignment="right",
+    verticalalignment="center",
+    transform=axin.transAxes,
+)
 axin.set_ylim(-0.1, 1.1)
 axin.set_xlim(0, lam_rightlimit)
 
@@ -290,7 +274,7 @@ axin.set_xlim(0, lam_rightlimit)
 #     data = np.load(f'data/open_sparse_exact_0.25_1_0.0_{N}_40.npz')
 #     Ds = data['Ds']
 #     lam0s = data['lam0s']
-    
+
 #     axin2.plot(-Ds[idx, :].imag, ws, label=rf'$N={N}$')
 
 # axin2.text(0.5,
@@ -322,7 +306,7 @@ axin.set_xlim(0, lam_rightlimit)
 #            transform=axin2.transAxes
 #            )
 
-    
+
 # axin2.set_yticklabels([])
 # axin2.set_yticks(np.arange(0, ws_upperlimit+0.1, 1))
 # axin2.tick_params(axis='x', which='major', labelsize=10)
@@ -336,10 +320,9 @@ axin.set_xlim(0, lam_rightlimit)
 # for child in axin2.get_children():
 #     if isinstance(child, mpl.spines.Spine):
 #         child.set_color('slategray')
-        
+
 # axin2.tick_params(color='slategray')
 
-fig.savefig('plots/ising_photon_response_letter_exact.jpeg',
-            bbox_inches='tight',
-            dpi=300
-            )
+fig.savefig(
+    "plots/ising_photon_response_letter_exact.jpeg", bbox_inches="tight", dpi=300
+)

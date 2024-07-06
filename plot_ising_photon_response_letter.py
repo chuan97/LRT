@@ -9,7 +9,7 @@ import plot
 import green
 import polaritons
 
-plot.set_rcParams(size = (5.75, 8.5), lw = 2, fs = 16)
+plot.set_rcParams(size=(5.75, 8.5), lw=2, fs=16)
 
 fig, axes = plt.subplots(2, 1, constrained_layout=True)
 ax = axes[0]
@@ -34,30 +34,27 @@ for i, lam in enumerate(lam0s):
     else:
         mx = ising.variational_mx(J, wx, W, lam)
     mxs.append(mx)
-    
-    wupperbound.append(2*((2*J) + wx + 4*lam**2*mx/W))
-    wlowerbound.append(2*np.abs((2*J) - (wx + 4*lam**2*mx/W)))
-    wmidband.append(2*ising.f_ek(np.pi/2, J, wx + 4*lam**2*mx/W))
-    
+
+    wupperbound.append(2 * ((2 * J) + wx + 4 * lam**2 * mx / W))
+    wlowerbound.append(2 * np.abs((2 * J) - (wx + 4 * lam**2 * mx / W)))
+    wmidband.append(2 * ising.f_ek(np.pi / 2, J, wx + 4 * lam**2 * mx / W))
+
     for j, w in enumerate(ws):
-        chixx0 = ising.f_chixx0(w + 1j*eta, J, wx + 4*lam**2*mx/W)
-        Vind = dicke.f_Vind(w + 1j*eta, W, lam, 0)
+        chixx0 = ising.f_chixx0(w + 1j * eta, J, wx + 4 * lam**2 * mx / W)
+        Vind = dicke.f_Vind(w + 1j * eta, W, lam, 0)
         chixx = green.f_chixx(Vind, chixx0)
-        
-        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
+
+        Dm[i, j] = green.f_Dm(w + 1j * eta, W, lam, chixx)
         # Dm[i, j] = -chixx
 
 vmin = np.amin(-Dm.imag)
 vmax = np.amax(-Dm.imag)
-        
-cm = ax.pcolormesh(lam0s,
-                   ws,
-                   -Dm.T.imag,
-                   cmap='BuPu',
-                   norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
-                   )
-ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+
+cm = ax.pcolormesh(
+    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+)
+ax.plot(lam0s, wupperbound, c="k", ls=(0, (1, 10)), lw="1")
+ax.plot(lam0s, wlowerbound, c="k", ls=(0, (1, 10)), lw="1")
 # ax.plot(lam0s, wmidband, c='k', ls='--', lw='1')
 # cbar = fig.colorbar(cm,
 #                     pad = -0.0,
@@ -65,26 +62,27 @@ ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
 #                     label=r'$-{\rm Im}D(\omega) \Omega$')
 
 # ax.set_xlabel(r'$\lambda / \Omega$')
-ax.set_ylabel(r'$\omega / \Omega$')
-ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; J / \Omega = {J}$', fontsize=14)
+ax.set_ylabel(r"$\omega / \Omega$")
+ax.set_title(rf"$\omega_x/\Omega = {wx} \,,\; J / \Omega = {J}$", fontsize=14)
 ax.set_xticklabels([])
 ax.set_ylim(0, ws_upperlimit)
 # ax.axvline(np.sqrt(J*W/1.196))
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
-axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
+axin.plot(lam0s, np.abs(mxs), c="b", label=r"$|m_x|$")
 axin.set_xticklabels([])
-axin.tick_params(axis='y', which='major', labelsize=12)
+axin.tick_params(axis="y", which="major", labelsize=12)
 # axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
 # axin.set_ylabel(r'$|m_x|$')
-axin.text(0.05,
-          0.75,
-          r'$|m_x|$',
-          fontsize=12,
-          horizontalalignment='left',
-          verticalalignment='center',
-          transform=axin.transAxes
-          )
+axin.text(
+    0.05,
+    0.75,
+    r"$|m_x|$",
+    fontsize=12,
+    horizontalalignment="left",
+    verticalalignment="center",
+    transform=axin.transAxes,
+)
 axin.set_ylim(-0.1, 1.1)
 
 # axin2 = inset_axes(ax, width="30%", height="20%", loc=4)
@@ -113,54 +111,54 @@ for i, lam in enumerate(lam0s):
     else:
         mx = ising.variational_mx(J, wx, W, lam)
     mxs.append(mx)
-    
-    wupperbound.append(2*((2*J) + wx + 4*lam**2*mx/W))
-    wlowerbound.append(2*np.abs((2*J) - (wx + 4*lam**2*mx/W)))
-    wmidband.append(2*ising.f_ek(np.pi/2, J, wx + 4*lam**2*mx/W))
-    
+
+    wupperbound.append(2 * ((2 * J) + wx + 4 * lam**2 * mx / W))
+    wlowerbound.append(2 * np.abs((2 * J) - (wx + 4 * lam**2 * mx / W)))
+    wmidband.append(2 * ising.f_ek(np.pi / 2, J, wx + 4 * lam**2 * mx / W))
+
     for j, w in enumerate(ws):
-        chixx0 = ising.f_chixx0(w + 1j*eta, J, wx + 4*lam**2*mx/W)
-        Vind = dicke.f_Vind(w + 1j*eta, W, lam, 0)
+        chixx0 = ising.f_chixx0(w + 1j * eta, J, wx + 4 * lam**2 * mx / W)
+        Vind = dicke.f_Vind(w + 1j * eta, W, lam, 0)
         chixx = green.f_chixx(Vind, chixx0)
-        
-        Dm[i, j] = green.f_Dm(w + 1j*eta, W, lam, chixx)
+
+        Dm[i, j] = green.f_Dm(w + 1j * eta, W, lam, chixx)
         # Dm[i, j] = -chixx
-        
-cm = ax.pcolormesh(lam0s,
-                   ws,
-                   -Dm.T.imag,
-                   cmap='BuPu',
-                   norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
-                   )
-cbar = fig.colorbar(cm,
-                    ax=axes.ravel().tolist(),
-                    pad = 0.0,
-                    aspect = 60,
-                    label=r'$-{\rm Im}D(\omega) \Omega$')
-ax.plot(lam0s, wupperbound, c='k', ls=(0, (1, 10)), lw='1')
-ax.plot(lam0s, wlowerbound, c='k', ls=(0, (1, 10)), lw='1')
+
+cm = ax.pcolormesh(
+    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+)
+cbar = fig.colorbar(
+    cm,
+    ax=axes.ravel().tolist(),
+    pad=0.0,
+    aspect=60,
+    label=r"$-{\rm Im}D(\omega) \Omega$",
+)
+ax.plot(lam0s, wupperbound, c="k", ls=(0, (1, 10)), lw="1")
+ax.plot(lam0s, wlowerbound, c="k", ls=(0, (1, 10)), lw="1")
 # ax.plot(lam0s, wmidband, c='k', ls='--', lw='1')
 
-ax.set_xlabel(r'$\lambda / \Omega$')
-ax.set_ylabel(r'$\omega / \Omega$')
+ax.set_xlabel(r"$\lambda / \Omega$")
+ax.set_ylabel(r"$\omega / \Omega$")
 # ax.set_yticklabels([])
-ax.set_title(rf'$\omega_x/\Omega = {wx} \,,\; J / \Omega = {J}$', fontsize=14)
+ax.set_title(rf"$\omega_x/\Omega = {wx} \,,\; J / \Omega = {J}$", fontsize=14)
 ax.set_ylim(0, ws_upperlimit)
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
-axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
+axin.plot(lam0s, np.abs(mxs), c="b", label=r"$|m_x|$")
 axin.set_xticklabels([])
-axin.tick_params(axis='y', which='major', labelsize=12)
+axin.tick_params(axis="y", which="major", labelsize=12)
 # axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
 # axin.set_ylabel(r'$|m_x|$')
-axin.text(0.05,
-          0.75,
-          r'$|m_x|$',
-          fontsize=12,
-          horizontalalignment='left',
-          verticalalignment='center',
-          transform=axin.transAxes
-          )
+axin.text(
+    0.05,
+    0.75,
+    r"$|m_x|$",
+    fontsize=12,
+    horizontalalignment="left",
+    verticalalignment="center",
+    transform=axin.transAxes,
+)
 axin.set_ylim(-0.1, 1.1)
 
 # axin2 = inset_axes(ax, width="30%", height="20%", loc=4)
@@ -168,4 +166,4 @@ axin.set_ylim(-0.1, 1.1)
 # axin2.set_yscale('log')
 # axin2.axvline(2, c='k', lw='0.5')
 
-fig.savefig('plots/ising_photon_response_letter.jpeg', bbox_inches='tight', dpi=300)
+fig.savefig("plots/ising_photon_response_letter.jpeg", bbox_inches="tight", dpi=300)
