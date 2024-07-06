@@ -97,7 +97,7 @@ ax.text(
 up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
-    pm, pp = polaritons.LMG_longitudinal(wz, W, lam, J)
+    pm, pp = polaritons.LMG_transverse(wz, W, lam, J)
 
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
@@ -156,7 +156,7 @@ cm2 = axin2.pcolormesh(
 up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
-    pm, pp = polaritons.LMG_longitudinal(wz, W, lam, J)
+    pm, pp = polaritons.LMG_transverse(wz, W, lam, J)
 
     up_twoosc.append(pp)
     lp_twoosc.append(pm)
@@ -402,7 +402,7 @@ ax.text(
 up_twoosc = []
 lp_twoosc = []
 for i, lam in enumerate(lam0s):
-    pm, pp = polaritons.LMG_longitudinal(wz, W, lam, J)
+    pm, pp = polaritons.LMG_transverse(wz, W, lam, J)
 
     up_twoosc.append(pp)
     lp_twoosc.append(pm)

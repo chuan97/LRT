@@ -77,7 +77,7 @@ def f_c(wz, wc, lam, J):
         return 0.0
 
 
-def super_LMG_long(wz, wc, lam, J):
+def super_LMG_trans(wz, wc, lam, J):
     a = f_a(wz, wc, lam, J)
     b = f_b(wz, wc, lam, J)
     c = f_c(wz, wc, lam, J)
@@ -91,10 +91,20 @@ def super_LMG_long(wz, wc, lam, J):
         return np.sqrt(b**2 + 4 * a * b), wc
 
 
-def LMG_longitudinal(wz, wc, lam, J):
+def LMG_transverse(wz, wc, lam, J):
     if (wz + 4 * J) > 4 * lam**2 / wc:
         # paramagnetic phase
         return normal(wz + 4 * J, wc, lam)
     else:
         # ferromagnetic phase
-        return super_LMG_long(wz, wc, lam, J)
+        return super_LMG_trans(wz, wc, lam, J)
+
+
+def beta_def_cond(beta, wx, wz, wc, lam, J):
+    k = 1 - beta
+    
+    return 
+
+def LMG_transverse_general(wx, wz, wc, lam, J):
+    beta = np.root()
+    
