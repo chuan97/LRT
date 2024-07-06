@@ -5,6 +5,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import transverse_LMG as tLMG
 import plot
+import polaritons
 import green
 
 plot.set_rcParams(size = (9.5, 8.5), lw = 2, fs = 16)
@@ -104,6 +105,26 @@ ax.text(0.95,
         transform=ax.transAxes
         )
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    pm, pp = polaritons.LMG_longitudinal(wz, W, lam, J)
+    
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+        
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$",
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+# ax.legend(loc='lower right', fontsize=12, frameon=False)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
@@ -144,6 +165,28 @@ cm2 = axin2.pcolormesh(lam0s,
                    cmap='OrRd',
                    norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz)
                    )
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    pm, pp = polaritons.LMG_longitudinal(wz, W, lam, J)
+    
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+        
+axin2.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$",
+        ls='--',
+        lw=0.75
+        )
+axin2.plot(lam0s, lp_twoosc, c='gold', ls='--', lw=0.75)
+
+# ax.legend(loc='lower right', fontsize=12, frameon=False)
+# ---------- two oscillator polaritons -------------
+
 axin2.text(0.5,
            0.8,
            r'${\rm Im}\chi_{zz}(\omega) \Omega$',
@@ -393,6 +436,27 @@ ax.text(0.05,
         verticalalignment='top',
         transform=ax.transAxes
         )
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    pm, pp = polaritons.LMG_longitudinal(wz, W, lam, J)
+    
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+        
+ax.plot(lam0s,
+        up_twoosc,
+        c='gold',
+        label=r"$\Omega_\pm$",
+        ls='--'
+        )
+ax.plot(lam0s, lp_twoosc, c='gold', ls='--')
+
+# ax.legend(loc='lower right', fontsize=12, frameon=False)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c='b', label=r'$|m_x|$')
 axin.plot(lam0s, np.abs(mzs), c='r', label=r'$|m_z|$')
