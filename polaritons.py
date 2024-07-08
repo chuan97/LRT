@@ -102,18 +102,34 @@ def LMG_transverse(wz, wc, lam, J):
 
 
 def sqrtb_def_cond(sqrtb, wx, wz, wc, lam, J):
-    return 8 * sqrtb * (lam**2 / wc - J) * (0.5 - sqrtb**2) - wz * sqrtb + 0.5 * wx
+    bb = sqrtb**2
+    k = 1 - sqrtb**2
+
+    return (
+        8 * sqrtb * (lam**2 / wc - J) * (0.5 - bb)
+        - wz * sqrtb
+        + 0.5 * wx * np.sqrt(k) * (1 - bb / k)
+    )
 
 
-def coefficients(sqrtb, wz, wc, lam, J):
+def coefficients(sqrtb, wx, wz, wc, lam, J):
     k = 1 - sqrtb**2
     if k < 0:
-        print('flag', sqrtb, sqrtb**2, k, lam)
+        print("flag", sqrtb, sqrtb**2, k, lam)
     sqrta = 2 * lam / wc * sqrtb * np.sqrt(k)
     bb = sqrtb**2
 
-    a = 0.5 * lam / k**2 * sqrta * sqrtb * np.sqrt(k) * (2 * k + bb) - 4 * J * bb
-    b = wz + 2 * lam / k * sqrta * sqrtb * np.sqrt(k) + 8 * J * (0.5 - bb)
+    a = (
+        0.5 * lam / k**2 * sqrta * sqrtb * np.sqrt(k) * (2 * k + bb)
+        - 4 * J * bb
+        + wx / 4 * sqrtb / np.sqrt(k) * (1 + bb / (2 * k))
+    )
+    b = (
+        wz
+        + 2 * lam / k * sqrta * sqrtb * np.sqrt(k)
+        + 8 * J * (0.5 - bb)
+        + 0.5 * wx * sqrtb / np.sqrt(k)
+    )
     c = 2 * lam / k * np.sqrt(k) * (0.5 - bb)
 
     return a, b, c
@@ -122,7 +138,7 @@ def coefficients(sqrtb, wz, wc, lam, J):
 def general(wc, a, b, c):
     A = b**2 + 4 * a * b + wc**2
     B = np.sqrt((b**2 + 4 * a * b - wc**2) ** 2 + 16 * b * c**2 * wc)
-    
+
     if c:
         return np.sqrt(0.5 * (A - B)), np.sqrt(0.5 * (A + B))
     else:
@@ -133,13 +149,13 @@ def LMG_transverse_general(wx, wz, wc, lam, J):
     sqrtb_para = root(sqrtb_def_cond, 0.0, args=(wx, wz, wc, lam, J)).x[0]
     sqrtb_ferro = root(sqrtb_def_cond, np.sqrt(0.5), args=(wx, wz, wc, lam, J)).x[0]
 
-    a, b, c = coefficients(sqrtb_para, wz, wc, lam, J)
-    pm, pp = general(wc, a, b, c)
+    a, b, c = coefficients(sqrtb_para, wx, wz, wc, lam, J)
+    pm_para, pp_para = general(wc, a, b, c)
 
-    if lam**2/wc > J:
-        a, b, c = coefficients(sqrtb_ferro, wz, wc, lam, J)
-        pm, pp = general(wc, a, b, c)
-        print(pm, pp, sqrtb_ferro / np.sqrt(0.5))
-        return pm, pp
+    a, b, c = coefficients(sqrtb_ferro, wx, wz, wc, lam, J)
+    pm_ferro, pp_ferro = general(wc, a, b, c)
+    # print(wx, wz, lam, pm_para, pp_para, sqrtb_para, pm_ferro, pp_ferro)
+    if np.isnan(pm_para) or (sqrtb_para == 0.0 and wx != 0) or lam ** 2 / wc > J:
+        return pm_ferro, pp_ferro
     else:
-        return pm, pp
+        return pm_para, pp_para
