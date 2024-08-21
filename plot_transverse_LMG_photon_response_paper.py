@@ -1,12 +1,12 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
-import transverse_LMG as tLMG
+import green
 import plot
 import polaritons
-import green
+import transverse_LMG as tLMG
 
 plot.set_rcParams(size=(9.5, 8.5), lw=2, fs=16)
 
@@ -53,7 +53,12 @@ vmin = np.amin(-Dm.imag)
 vmax = np.amax(-Dm.imag)
 
 cm = ax.pcolormesh(
-    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+    lam0s,
+    ws,
+    -Dm.T.imag,
+    cmap="BuPu",
+    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax),
+    shading="auto",
 )
 
 ax.set_ylim(0, 2)
@@ -150,6 +155,7 @@ cm2 = axin2.pcolormesh(
     chizzs.T.imag,
     cmap="OrRd",
     norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz),
+    shading="auto",
 )
 
 # ---------- two oscillator polaritons -------------
@@ -223,7 +229,12 @@ for i, lam in enumerate(lam0s):
         chizzs[i, j] = chizz
 
 cm = ax.pcolormesh(
-    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+    lam0s,
+    ws,
+    -Dm.T.imag,
+    cmap="BuPu",
+    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax),
+    shading="auto",
 )
 
 ax.set_ylim(0, 2)
@@ -264,6 +275,21 @@ ax.text(
     transform=ax.transAxes,
 )
 
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    pm, pp = polaritons.LMG_transverse_general(wx, wz, W, lam, J)
+
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+
+ax.plot(lam0s, up_twoosc, c="gold", label=r"$\Omega_\pm$", ls="--")
+ax.plot(lam0s, lp_twoosc, c="gold", ls="--")
+
+# ax.legend(loc='lower right', fontsize=12, frameon=False)
+# ---------- two oscillator polaritons -------------
+
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c="b", label=r"$|m_x|$")
 axin.plot(lam0s, np.abs(mzs), c="r", label=r"$|m_z|$")
@@ -303,6 +329,7 @@ cm2 = axin2.pcolormesh(
     chizzs.T.imag,
     cmap="OrRd",
     norm=mpl.colors.LogNorm(vmin=vminz, vmax=vmaxz),
+    shading="auto",
 )
 axin2.text(
     0.5,
@@ -319,6 +346,21 @@ axin2.set_xticks(np.arange(0, 1.1, 0.2))
 axin2.set_yticks(np.arange(0, 2.1, 0.5))
 axin2.set_xlim(0, 1)
 axin2.set_ylim(0, 2)
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    pm, pp = polaritons.LMG_transverse_general(wx, wz, W, lam, J)
+
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+
+axin2.plot(lam0s, up_twoosc, c="gold", label=r"$\Omega_\pm$", ls="--", lw=0.75)
+axin2.plot(lam0s, lp_twoosc, c="gold", ls="--", lw=0.75)
+
+# ax.legend(loc='lower right', fontsize=12, frameon=False)
+# ---------- two oscillator polaritons -------------
 
 ax = axes[1, 0]
 
@@ -359,7 +401,12 @@ for i, lam in enumerate(lam0s):
         chizzs[i, j] = chizz
 
 cm = ax.pcolormesh(
-    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+    lam0s,
+    ws,
+    -Dm.T.imag,
+    cmap="BuPu",
+    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax),
+    shading="auto",
 )
 
 ax.set_ylim(0, 2)
@@ -410,7 +457,7 @@ for i, lam in enumerate(lam0s):
 ax.plot(lam0s, up_twoosc, c="gold", label=r"$\Omega_\pm$", ls="--")
 ax.plot(lam0s, lp_twoosc, c="gold", ls="--")
 
-# ax.legend(loc='lower right', fontsize=12, frameon=False)
+ax.legend(loc="lower right", fontsize=12, frameon=False)
 # ---------- two oscillator polaritons -------------
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
@@ -502,7 +549,12 @@ for i, lam in enumerate(lam0s):
         chizzs[i, j] = chizz
 
 cm = ax.pcolormesh(
-    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+    lam0s,
+    ws,
+    -Dm.T.imag,
+    cmap="BuPu",
+    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax),
+    shading="auto",
 )
 # cbar = fig.colorbar(cm,
 #                     ax=axes.ravel().tolist(),
@@ -511,7 +563,12 @@ cm = ax.pcolormesh(
 #                     label=r'$-{\rm Im}D(\omega) \Omega$')
 
 cm = ax.pcolormesh(
-    lam0s, ws, -Dm.T.imag, cmap="BuPu", norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
+    lam0s,
+    ws,
+    -Dm.T.imag,
+    cmap="BuPu",
+    norm=mpl.colors.LogNorm(vmin=vmin, vmax=vmax),
+    shading="auto",
 )
 cax = ax.inset_axes([0.65, 0.1, 0.3, 0.03], transform=ax.transAxes)
 cbar = fig.colorbar(cm, cax=cax, ticks=[1e-2, 1e0, 1e2], orientation="horizontal")
@@ -553,6 +610,21 @@ ax.text(
     verticalalignment="top",
     transform=ax.transAxes,
 )
+
+# ---------- two oscillator polaritons -------------
+up_twoosc = []
+lp_twoosc = []
+for i, lam in enumerate(lam0s):
+    pm, pp = polaritons.LMG_transverse_general(wx, wz, W, lam, J)
+
+    up_twoosc.append(pp)
+    lp_twoosc.append(pm)
+
+ax.plot(lam0s, up_twoosc, c="gold", label=r"$\Omega_\pm$", ls="--")
+ax.plot(lam0s, lp_twoosc, c="gold", ls="--")
+
+# ax.legend(loc='lower right', fontsize=12, frameon=False)
+# ---------- two oscillator polaritons -------------
 
 axin = inset_axes(ax, width="30%", height="20%", loc=1)
 axin.plot(lam0s, np.abs(mxs), c="b", label=r"$|m_x|$")
