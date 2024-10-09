@@ -23,3 +23,9 @@ def f_chixx0(w, wz, h):
 
 def f_Vind(w, W, lam, zeta):
     return 2 * lam**2 * (W**2 * (zeta - 1) - zeta * w**2) / (W * (W**2 - w**2))
+
+
+def f_chixx0_temp(w, wz, h, beta):
+    eps = np.sqrt(wz**2 + 4 * h**2)
+
+    return f_chixx0(w, wz, h) * np.tanh(0.5 * beta * eps)
