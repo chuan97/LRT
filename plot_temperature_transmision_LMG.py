@@ -14,10 +14,10 @@ plot.set_rcParams(size=(5.75, 4.5), lw=2, fs=16)
 fig, axes = plt.subplots(1, 1, constrained_layout=True)
 ax = axes
 
-beta = 1
+beta = 5
 W = 1.0
 J = 0.1
-lam = 0.1
+lam = 0.05
 
 wzs = np.linspace(0.0001, 2, 200)
 ws = np.linspace(0, 2, 200)
@@ -46,11 +46,11 @@ axin.tick_params(axis="y", which="major", labelsize=12)
 # axin.set_xlabel(r'$\lambda / \Omega$', labelpad=-10)
 # axin.set_ylabel(r'$|m_x|$')
 axin.text(
-    0.05,
+    0.95,
     0.75,
     r"$|m_x|$",
     fontsize=12,
-    horizontalalignment="left",
+    horizontalalignment="right",
     verticalalignment="center",
     transform=axin.transAxes,
 )
@@ -72,9 +72,12 @@ axin.set_ylim(-0.1, 1.1)
 # # ---------- two oscillator polaritons -------------
 
 ax.set_ylim(0, 2)
-ax.set_xlabel(r"$\lambda / \Omega$")
+ax.set_xlabel(r"$\omega_z / \Omega$")
 ax.set_ylabel(r"$\omega / \Omega$")
-ax.set_title(rf"$\omega_z/\Omega = {wz} \,,\; J / \Omega = {J / W}$", fontsize=14)
+ax.set_title(
+    rf"$\lambda/\Omega = {lam / W} \,,\; J / \Omega = {J / W} \,,\; \beta \Omega = {beta*W}$",
+    fontsize=14,
+)
 
 
 fig.savefig("plots/temp_transmission_LMG.jpeg", bbox_inches="tight", dpi=300)
