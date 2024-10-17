@@ -44,11 +44,11 @@ ax = axes
 
 W = 1.0
 J = 1.0
-wx = 1.75
-lam0s = np.linspace(0.2, 1, 200)
+wx = 0
+lam0s = np.linspace(0.2, 1, 800)
 
-mxs = np.empty(len(wxs))
-mzs = np.empty(len(wxs))
+mxs = np.empty(len(lam0s))
+mzs = np.empty(len(lam0s))
 for j, lam in enumerate(lam0s):
     if lam < 0.05:
         mx = ising.mx_free(J, wx)
@@ -58,16 +58,18 @@ for j, lam in enumerate(lam0s):
     mxs[j] = mx
     mzs[j] = ising.mz_exact(J, wx - 4 * lam**2 * mx / W)
 
-plt.plot(lam0s, np.abs(mxs), c="b", label=r"$m_x$")
-plt.plot(lam0s, np.abs(mzs), c="r", label=r"$m_z$")
+plt.plot(lam0s**2, np.abs(mxs), c="b", label=r"$m_x$")
+plt.plot(lam0s**2, np.abs(mzs), c="r", label=r"$m_z$")
 
 fig, axes = plt.subplots(1, 1, constrained_layout=True)
 ax = axes
 
 mxs_der = np.gradient(mxs, np.diff(lam0s)[0])
 mzs_der = np.gradient(mzs, np.diff(lam0s)[0])
-plt.plot(lam0s, np.abs(mxs_der), c="b", label=r"$m_x$")
-# plt.plot(lam0s, np.abs(mzs_der), c="r", label=r"$m_z$")
+plt.plot(lam0s**2, np.abs(mxs_der), c="b", label=r"$m_x$")
+# plt.plot(lam0s**2, np.abs(mzs_der), c="r", label=r"$m_z$")
+
+print(lam0s[np.argmax(np.abs(mxs_der))] ** 2)
 
 ax.set_xlabel(r"$\lambda^2/(\Omega J)$")
 plt.legend(frameon=False)
