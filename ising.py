@@ -1,6 +1,6 @@
 import numpy as np
-from scipy.optimize import minimize
 from scipy.integrate import quad
+from scipy.optimize import minimize
 
 
 def e0_ising_kernel(k, J, wx):
@@ -112,6 +112,23 @@ def f_chixx0_alt(w_complex, J, wx):
         eta
         * 4
         * (2 * J) ** 2
+        / np.pi
+        * quad(altimchixx0_kernel, 0, 2 * np.pi, args=(w, J, wx, eta))[0]
+    )
+
+    return re + 1j * im
+
+
+def I(w_complex, J, wx):
+    w, eta = w_complex.real, w_complex.imag
+
+    re = (
+        8 * J**2 / np.pi * quad(altchixx0_kernel, 0, 2 * np.pi, args=(w, J, wx, eta))[0]
+    )
+    im = (
+        -eta
+        * 8
+        * J**2
         / np.pi
         * quad(altimchixx0_kernel, 0, 2 * np.pi, args=(w, J, wx, eta))[0]
     )

@@ -60,7 +60,7 @@ ax.set_ylim(0, wxs_upperlim)
 ax.text(
     0.05,
     0.4,
-    "zFMN",
+    r"$z$FMN",
     c="k",
     fontsize=16,
     horizontalalignment="left",
@@ -70,7 +70,7 @@ ax.text(
 ax.text(
     0.95,
     0.4,
-    "xFMS",
+    r"$x$FMS",
     c="w",
     fontsize=16,
     horizontalalignment="right",
@@ -106,7 +106,7 @@ ax.set_ylim(0, wxs_upperlim)
 ax.text(
     0.05,
     0.4,
-    "zFMN",
+    r"$z$FMN",
     c="w",
     fontsize=16,
     horizontalalignment="left",
@@ -116,7 +116,7 @@ ax.text(
 ax.text(
     0.95,
     0.4,
-    "xFMS",
+    r"$x$FMS",
     c="k",
     fontsize=16,
     horizontalalignment="right",
@@ -152,7 +152,7 @@ axin.set_ylim(0, wxs_upperlim)
 axin.text(
     0.05,
     0.4,
-    "zFMN",
+    r"$z$FMN",
     c="k",
     fontsize=16,
     horizontalalignment="left",
@@ -162,7 +162,7 @@ axin.text(
 axin.text(
     0.95,
     0.4,
-    "xFMS",
+    r"$x$FMS",
     c="w",
     fontsize=16,
     horizontalalignment="right",
