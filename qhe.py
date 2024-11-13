@@ -43,3 +43,7 @@ def sigma_yy(w0, wc, wp, delta):
     d2 = up**2 + delta**2
 
     return 1 - n1 * n2 / (d1 * d2)
+
+
+def rho_xx(w0, wc, wp, delta):
+    return w0**2 + wp**2 + delta**2 / (w0**2 + delta**2)
