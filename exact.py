@@ -1,12 +1,11 @@
-import numpy as np
 import math
-
 from collections import namedtuple
 
-from scipy.linalg import kron, expm
-from scipy.sparse.linalg import expm as expms
+import numpy as np
+from scipy.linalg import expm, kron
+from scipy.sparse import csr_matrix, diags, eye
 from scipy.sparse import kron as krons
-from scipy.sparse import diags, eye, csr_matrix
+from scipy.sparse.linalg import expm as expms
 
 
 def spin_operators(S, *, to_dense_array=False, format=None, dtype=np.float_):
@@ -199,6 +198,40 @@ def open_dicke_ising(J, wc, wx, lam, N, n_bosons):
     for i in range(N):
         op_chain = [Seye] * i + [sx] + [Seye] * (N - i - 1) + [beye]
         Hb += 0.5 * wx * sparse_kron(*op_chain)
+
+    # cavity energy
+    op_chain = [Seye] * N + [ad @ a]
+    Hcav = wc * sparse_kron(*op_chain)
+
+    # dicke interaction
+    Hc = csr_matrix((2**N * (n_bosons + 1), 2**N * (n_bosons + 1)))
+    for i in range(N):
+        op_chain = [Seye] * i + [sx] + [Seye] * (N - i - 1) + [a + ad]
+        Hb += lam / np.sqrt(N) * sparse_kron(*op_chain)
+
+    return Hi + Hb + Hc + Hcav
+
+
+def open_dicke_ising_ext(J, wc, wx, wz, lam, N, n_bosons):
+    Sz, Sp, Sm, Seye = spin_operators(1 / 2)
+    Sx = 0.5 * (Sp + Sm)
+    a, ad, beye = boson_operators(n_bosons)
+
+    sz = 2 * Sz
+    sx = 2 * Sx
+    # ising interaction
+    Hi = csr_matrix((2**N * (n_bosons + 1), 2**N * (n_bosons + 1)))
+    for i in range(N - 1):
+        op_chain = [Seye] * i + [sz, sz] + [Seye] * (N - i - 2) + [beye]
+        Hi += -J * sparse_kron(*op_chain)
+
+    # classical field
+    Hb = csr_matrix((2**N * (n_bosons + 1), 2**N * (n_bosons + 1)))
+    for i in range(N):
+        op_chain = [Seye] * i + [sx] + [Seye] * (N - i - 1) + [beye]
+        Hb += 0.5 * wx * sparse_kron(*op_chain)
+        op_chain = [Seye] * i + [sz] + [Seye] * (N - i - 1) + [beye]
+        Hb += 0.5 * wz * sparse_kron(*op_chain)
 
     # cavity energy
     op_chain = [Seye] * N + [ad @ a]
