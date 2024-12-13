@@ -75,8 +75,8 @@ wz = 0.01
 N = 8
 k = 4 * N
 
-# i = 2 * N + 14
-i = 7
+i = 2 * N + 14
+# i = 7
 # i = 0
 
 H = ed.open_dicke_ising_ext(J, W, wx, wz, lam, N, n_bosons)
